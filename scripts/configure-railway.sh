@@ -23,5 +23,10 @@ JSON
 railway service source connect --project "$calc_project" --environment "$calc_environment" \
   --service "$calc_service" --repo "$calc_repository" --branch main --json
 
+railway environment edit --project "$calc_project" --environment "$calc_environment" \
+  --message 'Require passing GitHub checks before deployment' --json <<JSON
+{"services":{"$calc_service":{"source":{"checkSuites":true}}}}
+JSON
+
 railway deployment list --project "$calc_project" --environment "$calc_environment" \
   --service "$calc_service" --json

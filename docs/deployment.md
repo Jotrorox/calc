@@ -8,7 +8,11 @@
 - Environment: `production`
 - Source branch: `main`
 
+The service is connected through Railway's native GitHub source integration. The verified GitHub deployment trigger points to `Jotrorox/calc` on `main`, with `checkSuites: true` and one required successful check suite. Pushes trigger the CI workflow; Railway waits for those checks before deploying. Trigger ID: `b29cfa7c-b85e-49c7-b2d1-60fe6a4f17b1`.
+
 The initial deployment was uploaded through Railway CLI 5.52.0 using the `use-railway` skill. Deployment `5a1678dd-26b4-4dbf-8117-39b1e52faf27` reached `SUCCESS` on 2026-09-10. Its public health endpoint returned `{"status":"ok"}` and the context calculation `f(5)` followed by `ans + f(3)` for `f(x)=x^2` returned `34` at 256-bit precision.
+
+Nine production smoke checks also passed for arithmetic, complex square roots, matrix multiplication, precision beyond f64, degree mode, calculation deadlines, invalid input, recovery after timeout, and health. The local suite includes 175 test groups and 227 documented capability cases. Formatting, application Clippy, and the release build pass. The release executable is approximately 2.6 MiB on Linux x86-64.
 
 The production configuration uses a Dockerfile build, the `/health` readiness path, a 30-second readiness timeout, and `ON_FAILURE` restarts with at most 3 retries. Settings are persisted in Railway and reproducible with:
 

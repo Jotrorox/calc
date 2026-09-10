@@ -111,4 +111,4 @@ railway domain
 railway service source connect --repo Jotrorox/calc --branch main
 ```
 
-The production service is connected to the private GitHub repository's `main` branch for automatic deployments. Its concrete URLs and deployment verification are recorded in [deployment notes](docs/deployment.md). GitHub access is controlled by the repository's private visibility; the API domain itself is public.
+The production service is connected to the private GitHub repository's `main` branch for automatic deployments after GitHub CI succeeds. Its concrete URLs and deployment verification are recorded in [deployment notes](docs/deployment.md). GitHub access is controlled by the repository's private visibility; the API domain itself is public.

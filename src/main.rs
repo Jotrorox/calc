@@ -18,6 +18,8 @@ use tokio::{
 };
 
 const MAX_BODY: usize = 32 * 1024;
+// The internal request includes serde defaults that were optional on the wire.
+const MAX_WORKER_INPUT: usize = MAX_BODY + 1024;
 const MAX_OUTPUT: u64 = 2 * 1024 * 1024;
 
 #[derive(Clone)]
@@ -45,9 +47,9 @@ fn worker() -> Result<(), Box<dyn std::error::Error>> {
     std::panic::set_hook(Box::new(|_| {}));
     let mut input = Vec::new();
     std::io::stdin()
-        .take(MAX_BODY as u64 + 1)
+        .take(MAX_WORKER_INPUT as u64 + 1)
         .read_to_end(&mut input)?;
-    if input.len() > MAX_BODY {
+    if input.len() > MAX_WORKER_INPUT {
         return Err("worker input too large".into());
     }
     let request: CalcRequest = serde_json::from_slice(&input)?;

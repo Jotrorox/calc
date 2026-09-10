@@ -397,6 +397,23 @@ fn oversized_http_bodies_are_rejected_before_calculation() {
 }
 
 #[test]
+fn valid_body_near_limit_survives_internal_worker_serialization() {
+    let server = Server::start();
+    let expression = "1".to_owned() + &"\t".repeat(16_374);
+    assert_eq!(expression.len(), 16_375);
+    let body = serde_json::to_vec(&json!({ "expression": expression })).unwrap();
+    assert_eq!(body.len(), 32_766);
+    // Adding default fields to the worker request must not reject an accepted HTTP body.
+    let response = server.request(
+        "POST",
+        "/calc",
+        &[("Content-Type", "application/json")],
+        &body,
+    );
+    assert_eq!(response.real(), 1.0);
+}
+
+#[test]
 fn precision_defaults_and_boundaries_are_enforced() {
     let server = Server::start();
     let default = server.expression("1/3").success();
