@@ -1,0 +1,366 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Calculator API",
+    "version": "0.1.0",
+    "description": "Stateless Kalker engine API. See capabilities.md for language and upstream numerical limits. Request body 32 KiB; combined input 16 KiB; worker output 2 MiB."
+  },
+  "servers": [
+    {
+      "url": "https://calc-production-c962.up.railway.app",
+      "description": "Railway production"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health",
+        "summary": "Process readiness independent of calculator capacity",
+        "responses": {
+          "200": {
+            "description": "Ready",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "const": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calc": {
+      "post": {
+        "operationId": "calculate",
+        "summary": "Evaluate a Kalker program",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalcRequest"
+              },
+              "examples": {
+                "arithmetic": {
+                  "value": {
+                    "expression": "2+3*4"
+                  }
+                },
+                "context": {
+                  "value": {
+                    "context": [
+                      "f(x)=x^2",
+                      "f(5)"
+                    ],
+                    "expression": "ans+f(3)",
+                    "precision": 256
+                  }
+                },
+                "matrix": {
+                  "value": {
+                    "expression": "[1,2;3,4]"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Calculation result; null for definitions only.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalcResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON or request validation failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Calculation or body-read timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Body exceeds 32768 bytes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Expected application/json",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Calculation error, recursion limit, worker failure, or output limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "All workers busy; retry later",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "const": "1"
+                },
+                "description": "Retry delay in seconds"
+              }
+            }
+          },
+          "500": {
+            "description": "Worker infrastructure failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CalcRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "expression"
+        ],
+        "properties": {
+          "expression": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Final program. Combined UTF-8 bytes with context must be at most 16384."
+          },
+          "context": {
+            "type": "array",
+            "default": [],
+            "maxItems": 64,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": "Earlier programs evaluated in order within this request; supports ans and definitions."
+          },
+          "precision": {
+            "type": "integer",
+            "minimum": 32,
+            "maximum": 4096,
+            "default": 128
+          },
+          "angle_unit": {
+            "type": "string",
+            "enum": [
+              "rad",
+              "deg"
+            ],
+            "default": "rad"
+          }
+        }
+      },
+      "CalcResponse": {
+        "type": "object",
+        "required": [
+          "result",
+          "precision",
+          "angle_unit"
+        ],
+        "properties": {
+          "result": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "formatted",
+                  "value"
+                ],
+                "properties": {
+                  "formatted": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "$ref": "#/components/schemas/Value"
+                  }
+                }
+              }
+            ]
+          },
+          "precision": {
+            "type": "integer"
+          },
+          "angle_unit": {
+            "enum": [
+              "rad",
+              "deg"
+            ]
+          }
+        }
+      },
+      "Value": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "real",
+              "imaginary",
+              "unit"
+            ],
+            "properties": {
+              "type": {
+                "const": "number"
+              },
+              "real": {
+                "type": "string",
+                "description": "Decimal component or NaN/inf/-inf; never rounded to a JSON number."
+              },
+              "imaginary": {
+                "type": "string"
+              },
+              "unit": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "value"
+            ],
+            "properties": {
+              "type": {
+                "const": "boolean"
+              },
+              "value": {
+                "type": "boolean"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "values"
+            ],
+            "properties": {
+              "type": {
+                "const": "vector"
+              },
+              "values": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Value"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "type",
+              "rows"
+            ],
+            "properties": {
+              "type": {
+                "const": "matrix"
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Value"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "properties": {
+          "error": {
+            "type": "object",
+            "required": [
+              "code",
+              "message"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

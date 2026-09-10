@@ -1,0 +1,1155 @@
+[
+  {
+    "category": "arithmetic",
+    "expression": "2 + 3 * 4",
+    "expected": "14"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "(2 + 3) * 4",
+    "expected": "20"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "2^3^2",
+    "expected": "512"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "2**5",
+    "expected": "32"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "-2^2",
+    "expected": "4"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "-(2^2)",
+    "expected": "-4"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "7 / 2",
+    "expected": "3.5"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "1 / 8",
+    "expected": "0.125"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "5!",
+    "expected": "120"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "0!",
+    "expected": "1"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "50%",
+    "expected": "0.5"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "200 + 10%",
+    "expected": "220"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "200 - 10%",
+    "expected": "180"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "200 * 10%",
+    "expected": "20"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "1.25E3",
+    "expected": "1250"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "3E-2",
+    "expected": "0.03"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "2(3 + 4)",
+    "expected": "14"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "2 × 3 + 8 ÷ 2",
+    "expected": "10"
+  },
+  {
+    "category": "groups",
+    "expression": "|-3|",
+    "expected": "3"
+  },
+  {
+    "category": "groups",
+    "expression": "⌊2.6⌋",
+    "expected": "2"
+  },
+  {
+    "category": "groups",
+    "expression": "⌈4.2⌉",
+    "expected": "5"
+  },
+  {
+    "category": "groups",
+    "expression": "floor(-2.6)",
+    "expected": "-3"
+  },
+  {
+    "category": "groups",
+    "expression": "ceil(-2.6)",
+    "expected": "-2"
+  },
+  {
+    "category": "groups",
+    "expression": "round(2.6)",
+    "expected": "3"
+  },
+  {
+    "category": "groups",
+    "expression": "trunc(-2.6)",
+    "expected": "-2"
+  },
+  {
+    "category": "groups",
+    "expression": "frac(2.25)",
+    "expected": "0.25"
+  },
+  {
+    "category": "groups",
+    "expression": "frac(-2.25)",
+    "expected": "-0.25"
+  },
+  {
+    "category": "groups",
+    "expression": "sgn(-5)",
+    "expected": "-1"
+  },
+  {
+    "category": "groups",
+    "expression": "sgn(0)",
+    "expected": "0"
+  },
+  {
+    "category": "definitions",
+    "expression": "x = 2; y = 3; xy + x",
+    "expected": "8"
+  },
+  {
+    "category": "definitions",
+    "expression": "long_name = 7; long_name + 2",
+    "expected": "9"
+  },
+  {
+    "category": "definitions",
+    "expression": "x₂₃ = 3; x₂₃ + 1",
+    "expected": "4"
+  },
+  {
+    "category": "definitions",
+    "expression": "x = 2; x = 5; x",
+    "expected": "5"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x) = 2x^2 + x; f(3)",
+    "expected": "21"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x, y) = xy + 1; f(3, 4)",
+    "expected": "13"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x) = 2x; g(x) = f(x) + 3; g(4)",
+    "expected": "11"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x) = { -x if x < 0; x otherwise }; f(-5)",
+    "expected": "5"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x) = { f(x - 1) if x >= 1; x otherwise }; f(5)",
+    "expected": "0"
+  },
+  {
+    "category": "definitions",
+    "expression": "g(x, y) = { g(x - 1, y + 1) if x >= 1; y otherwise }; g(5, 0)",
+    "expected": "5"
+  },
+  {
+    "category": "definitions",
+    "expression": "ans * 4",
+    "expected": "20",
+    "context": [
+      "2 + 3"
+    ]
+  },
+  {
+    "category": "definitions",
+    "expression": "sqrt4",
+    "expected": "2"
+  },
+  {
+    "category": "definitions",
+    "expression": "f(x)=2x; f3",
+    "expected": "6"
+  },
+  {
+    "category": "constants",
+    "expression": "pi > 3 and pi < 4",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "(π = pi)",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "(tau = 2pi)",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "(τ = tau)",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "e > 2 and e < 3",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "phi > 1 and phi < 2",
+    "expected": "true"
+  },
+  {
+    "category": "constants",
+    "expression": "(ϕ = phi)",
+    "expected": "true"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sin(0)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "cos(0)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "tan(0)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sec(0)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sin(90 deg)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "cos(180 deg)",
+    "expected": "-1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "tan(pi/4)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "csc(pi/2)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "cot(pi/4)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "asin(0)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "acos(1)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "atan(0)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "asec(1)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sin(pi/6)",
+    "expected": "0.5"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "acsc(2)",
+    "expected": "pi/6"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "acot(1)",
+    "expected": "pi/4"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "sinh(0)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "cosh(0)",
+    "expected": "1"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "tanh(0)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "sech(0)",
+    "expected": "1"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "asinh(0)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "acosh(1)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "atanh(0)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "asech(1)",
+    "expected": "0"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "csch(1)",
+    "expected": "0.8509181282393215"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "coth(1)",
+    "expected": "1.3130352854993313"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "acsch(1)",
+    "expected": "0.8813735870195430"
+  },
+  {
+    "category": "hyperbolic",
+    "expression": "acoth(2)",
+    "expected": "0.5493061443340548"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "sqrt(81)",
+    "expected": "9"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "√64",
+    "expected": "8"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "cbrt(-27)",
+    "expected": "-3"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "root(81, 4)",
+    "expected": "3"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "exp(0)",
+    "expected": "1"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "ln(1)",
+    "expected": "0"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "log(1000)",
+    "expected": "3"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "log(8, 2)",
+    "expected": "3"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "log₂(32)",
+    "expected": "5"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "gamma(5)",
+    "expected": "24"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "Γ(5)",
+    "expected": "24"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "hypot(3, 4)",
+    "expected": "5"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "gcd(18, 24)",
+    "expected": "6"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "lcm(6, 8)",
+    "expected": "24"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "nCr(5, 2)",
+    "expected": "10"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "comb(5, 2)",
+    "expected": "10"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "nPr(5, 2)",
+    "expected": "20"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "perm(5, 2)",
+    "expected": "20"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitand(6, 3)",
+    "expected": "2"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitor(6, 3)",
+    "expected": "7"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitxor(6, 3)",
+    "expected": "5"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitcmp(0)",
+    "expected": "-1"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitshift(3, 2)",
+    "expected": "12"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "bitshift(12, -2)",
+    "expected": "3"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "3 << 2",
+    "expected": "12"
+  },
+  {
+    "category": "integer_functions",
+    "expression": "12 >> 2",
+    "expected": "3"
+  },
+  {
+    "category": "complex",
+    "expression": "i^2",
+    "expected": "-1"
+  },
+  {
+    "category": "complex",
+    "expression": "sqrt(-4)",
+    "expected": "2i"
+  },
+  {
+    "category": "complex",
+    "expression": "(2 + 3i) + (4 - i)",
+    "expected": "6 + 2i"
+  },
+  {
+    "category": "complex",
+    "expression": "(2 + 3i) * (4 - i)",
+    "expected": "11 + 10i"
+  },
+  {
+    "category": "complex",
+    "expression": "(1 + i) / (1 - i)",
+    "expected": "i"
+  },
+  {
+    "category": "complex",
+    "expression": "Re(3 + 4i)",
+    "expected": "3"
+  },
+  {
+    "category": "complex",
+    "expression": "Im(3 + 4i)",
+    "expected": "4"
+  },
+  {
+    "category": "complex",
+    "expression": "abs(3 + 4i)",
+    "expected": "5"
+  },
+  {
+    "category": "complex",
+    "expression": "sgn(3 + 4i)",
+    "expected": "0.6 + 0.8i"
+  },
+  {
+    "category": "complex",
+    "expression": "floor(2.6 + 3.8i)",
+    "expected": "2 + 3i"
+  },
+  {
+    "category": "complex",
+    "expression": "exp(i*pi)",
+    "expected": "-1"
+  },
+  {
+    "category": "complex",
+    "expression": "ln(-1)",
+    "expected": "pi*i"
+  },
+  {
+    "category": "complex",
+    "expression": "arg(i)",
+    "expected": "pi/2"
+  },
+  {
+    "category": "complex",
+    "expression": "sin(i)",
+    "expected": "1.1752011936438014i"
+  },
+  {
+    "category": "logic",
+    "expression": "true and false",
+    "expected": "false"
+  },
+  {
+    "category": "logic",
+    "expression": "true or false",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "not false",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "¬false",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "true ∧ true",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "false ∨ true",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "2 != 3",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "2 ≠ 3",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "2 <= 2",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "3 ≥ 2",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "1 < 2 < 3",
+    "expected": "true"
+  },
+  {
+    "category": "logic",
+    "expression": "1 < 2 > 3",
+    "expected": "false"
+  },
+  {
+    "category": "logic",
+    "expression": "iverson(2 > 1)",
+    "expected": "1"
+  },
+  {
+    "category": "logic",
+    "expression": "iverson(2 < 1)",
+    "expected": "0"
+  },
+  {
+    "category": "bases",
+    "expression": "0b1101",
+    "expected": "13"
+  },
+  {
+    "category": "bases",
+    "expression": "0o17",
+    "expected": "15"
+  },
+  {
+    "category": "bases",
+    "expression": "0xff",
+    "expected": "255"
+  },
+  {
+    "category": "bases",
+    "expression": "1101_2",
+    "expected": "13"
+  },
+  {
+    "category": "bases",
+    "expression": "101₂",
+    "expected": "5"
+  },
+  {
+    "category": "bases",
+    "expression": "13.5_8",
+    "expected": "11.625"
+  },
+  {
+    "category": "bases",
+    "expression": "0b1101.101",
+    "expected": "13.625"
+  },
+  {
+    "category": "bases",
+    "expression": "0xb.5",
+    "expected": "11.3125"
+  },
+  {
+    "category": "bases",
+    "expression": "0b101 + 0o10 + 0xf",
+    "expected": "28"
+  },
+  {
+    "category": "vectors",
+    "expression": "(2, 3, 5) + (7, 11, 13)",
+    "expected": "(9, 14, 18)"
+  },
+  {
+    "category": "vectors",
+    "expression": "(2, 3, 5) - (7, 11, 13)",
+    "expected": "(-5, -8, -8)"
+  },
+  {
+    "category": "vectors",
+    "expression": "(2, 3, 5) * (7, 11, 13)",
+    "expected": "112"
+  },
+  {
+    "category": "vectors",
+    "expression": "(8, 9, 25) / (2, 3, 5)",
+    "expected": "(4, 3, 5)"
+  },
+  {
+    "category": "vectors",
+    "expression": "(2, 3, 5) + 2",
+    "expected": "(4, 5, 7)"
+  },
+  {
+    "category": "vectors",
+    "expression": "(2, 3, 5) * 2",
+    "expected": "(4, 6, 10)"
+  },
+  {
+    "category": "vectors",
+    "expression": "abs([-3, 2, -5])",
+    "expected": "(3, 2, 5)"
+  },
+  {
+    "category": "vectors",
+    "expression": "sqrt((4, 9, 16))",
+    "expected": "(2, 3, 4)"
+  },
+  {
+    "category": "vectors",
+    "expression": "length((10, 20, 30))",
+    "expected": "3"
+  },
+  {
+    "category": "vectors",
+    "expression": "sort((3, 1, 2))",
+    "expected": "(1, 2, 3)"
+  },
+  {
+    "category": "vectors",
+    "expression": "append((1, 2), 3)",
+    "expected": "(1, 2, 3)"
+  },
+  {
+    "category": "vectors",
+    "expression": "average((1, 2, 3))",
+    "expected": "2"
+  },
+  {
+    "category": "vectors",
+    "expression": "sum((1, 2, 3))",
+    "expected": "6"
+  },
+  {
+    "category": "vectors",
+    "expression": "prod((2, 3, 4))",
+    "expected": "24"
+  },
+  {
+    "category": "vectors",
+    "expression": "min((3, 1, 2))",
+    "expected": "1"
+  },
+  {
+    "category": "vectors",
+    "expression": "max((3, 1, 2))",
+    "expected": "3"
+  },
+  {
+    "category": "vectors",
+    "expression": "(10, 20, 30)[[2]]",
+    "expected": "20"
+  },
+  {
+    "category": "vectors",
+    "expression": "(10, 20, 30)⟦3⟧",
+    "expected": "30"
+  },
+  {
+    "category": "vectors",
+    "expression": "length(perms((1, 2, 3)))",
+    "expected": "6"
+  },
+  {
+    "category": "vectors",
+    "expression": "length(permutations((1, 1, 2)))",
+    "expected": "3"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4]",
+    "expected": "[1, 2; 3, 4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4] + [2, 3; 4, 5]",
+    "expected": "[3, 5; 7, 9]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4] * [5, 6; 7, 8]",
+    "expected": "[19, 22; 43, 50]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[4, 9; 12, 3] / [2, 3; 4, 3]",
+    "expected": "[2, 3; 3, 1]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4] * (2, 3)",
+    "expected": "(8, 18)"
+  },
+  {
+    "category": "matrices",
+    "expression": "transpose([1, 2; 3, 4])",
+    "expected": "[1, 3; 2, 4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4]ᵀ",
+    "expected": "[1, 3; 2, 4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "diag((2, 3))",
+    "expected": "[2, 0; 0, 3]"
+  },
+  {
+    "category": "matrices",
+    "expression": "matrix(((1, 2), (3, 4)))",
+    "expected": "[1, 2; 3, 4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "trace([1, 2; 3, 4])",
+    "expected": "5"
+  },
+  {
+    "category": "matrices",
+    "expression": "det([1, 2; 3, 4])",
+    "expected": "-2"
+  },
+  {
+    "category": "matrices",
+    "expression": "determinant([1, 2; 3, 4])",
+    "expected": "-2"
+  },
+  {
+    "category": "matrices",
+    "expression": "length([1, 2; 3, 4])",
+    "expected": "2"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4][[2, 1]]",
+    "expected": "3"
+  },
+  {
+    "category": "comprehensions",
+    "expression": "[x : 0 ≤ x and 5 > x]",
+    "expected": "(0, 1, 2, 3, 4)"
+  },
+  {
+    "category": "comprehensions",
+    "expression": "[x^2 : x >= 1 and x <= 4]",
+    "expected": "(1, 4, 9, 16)"
+  },
+  {
+    "category": "comprehensions",
+    "expression": "[(x, y) : x > 0 and x <= 2, y > 0 and y <= 2]",
+    "expected": "((1,1),(1,2),(2,1),(2,2))"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "sum(n=1, 3, 2n+1)",
+    "expected": "15"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "sum(k=1, 5, 2k)",
+    "expected": "30"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "Σ(k=1, 3, k^2)",
+    "expected": "14"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "∑(k=1, 3, k)",
+    "expected": "6"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "prod(k=1, 4, k)",
+    "expected": "24"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "∏(k=1, 4, k)",
+    "expected": "24"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "sum(a=1, 3, Σ(b=1, 3, a + b))",
+    "expected": "36"
+  },
+  {
+    "category": "sums_and_products",
+    "expression": "n=10; sum(n=1, 5, 2n) + n",
+    "expected": "40"
+  },
+  {
+    "category": "calculus",
+    "expression": "f(x) = 2x^2 + x; f'(2)",
+    "expected": "9"
+  },
+  {
+    "category": "calculus",
+    "expression": "sin'(0)",
+    "expected": "1"
+  },
+  {
+    "category": "calculus",
+    "expression": "f(x) = x^3; f''(2)",
+    "expected": "12"
+  },
+  {
+    "category": "calculus",
+    "expression": "integrate(0, 1, x dx)",
+    "expected": "0.5"
+  },
+  {
+    "category": "calculus",
+    "expression": "integral(0, 1, x^2 dx)",
+    "expected": "1/3"
+  },
+  {
+    "category": "calculus",
+    "expression": "∫(0, pi, sin(x) dx)",
+    "expected": "2"
+  },
+  {
+    "category": "calculus",
+    "expression": "integrate(0, pi, sinx, dx)",
+    "expected": "2"
+  },
+  {
+    "category": "equations",
+    "expression": "x^2 = 64",
+    "expected": "8"
+  },
+  {
+    "category": "equations",
+    "expression": "3x^3 - 2x = x^2 + 2",
+    "expected": "1.2707763266819693"
+  },
+  {
+    "category": "equations",
+    "expression": "{x + y + z = 9; z*x - y = 10; 4y + 12x - 2 = 42}",
+    "expected": "(3,2,4)"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "17 % 5",
+    "expected": "2"
+  },
+  {
+    "category": "units",
+    "expression": "unit cm = 100m; 250 cm to m",
+    "expected": "unit cm=100m; 2.5m"
+  },
+  {
+    "category": "units",
+    "expression": "unit F = C*9/5 + 32; 100C to F",
+    "expected": "unit F=C*9/5+32; 212F"
+  },
+  {
+    "category": "units",
+    "expression": "unit F = C*9/5 + 32; 32F to C",
+    "expected": "unit F=C*9/5+32; 0C"
+  },
+  {
+    "category": "arithmetic",
+    "expression": "17 mod 5",
+    "expected": "2"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "∛27",
+    "expected": "3"
+  },
+  {
+    "category": "powers_and_logs",
+    "expression": "log_2(32)",
+    "expected": "5"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sin(90°)",
+    "expected": "1"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "sin⁻¹(0)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "cos⁻¹(1)",
+    "expected": "0"
+  },
+  {
+    "category": "trigonometry",
+    "expression": "tan⁻¹(0)",
+    "expected": "0"
+  },
+  {
+    "category": "logic",
+    "expression": "iverson(0)",
+    "expected": "1"
+  },
+  {
+    "category": "vectors",
+    "expression": "sum(1, 2, 3)",
+    "expected": "6"
+  },
+  {
+    "category": "vectors",
+    "expression": "average(1, 2, 3)",
+    "expected": "2"
+  },
+  {
+    "category": "vectors",
+    "expression": "min(3, 1, 2)",
+    "expected": "1"
+  },
+  {
+    "category": "vectors",
+    "expression": "max(3, 1, 2)",
+    "expected": "3"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4][[2]]",
+    "expected": "(3,4)"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4]^T",
+    "expected": "[1,3;2,4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "abs([-1, 2; -3, 4])",
+    "expected": "[1,2;3,4]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4] + (10, 20)",
+    "expected": "[11,12;23,24]"
+  },
+  {
+    "category": "matrices",
+    "expression": "[1, 2; 3, 4] / 2",
+    "expected": "[0.5,1;1.5,2]"
+  },
+  {
+    "category": "matrices",
+    "expression": "trace([7,7,-9;9,-3,-4;-4,2,5])",
+    "expected": "9"
+  },
+  {
+    "category": "matrices",
+    "expression": "det([3,1,-4;2,5,6;1,4,8])",
+    "expected": "26"
+  },
+  {
+    "category": "complex",
+    "expression": "gcd(5+5i, 3+i)",
+    "expected": "3+i"
+  },
+  {
+    "category": "context",
+    "context": [
+      "f(x)=2x^2+x"
+    ],
+    "expression": "f(3)",
+    "expected": "21"
+  },
+  {
+    "category": "context",
+    "context": [
+      "2+3",
+      "ans*2"
+    ],
+    "expression": "ans+1",
+    "expected": "11"
+  },
+  {
+    "category": "context",
+    "context": [
+      "x=2; y=3"
+    ],
+    "expression": "xy",
+    "expected": "6"
+  },
+  {
+    "category": "angle_modes",
+    "expression": "sin(90)",
+    "angle_unit": "deg",
+    "expected": "1"
+  },
+  {
+    "category": "angle_modes",
+    "expression": "cos(180)",
+    "angle_unit": "deg",
+    "expected": "-1"
+  },
+  {
+    "category": "angle_modes",
+    "expression": "asin(1)",
+    "angle_unit": "deg",
+    "expected": "90 deg"
+  },
+  {
+    "category": "angle_modes",
+    "expression": "sin((pi/2) rad)",
+    "angle_unit": "deg",
+    "expected": "1"
+  },
+  {
+    "category": "precision",
+    "expression": "(2^200 + 1) - 2^200",
+    "precision": 256,
+    "expected": "1"
+  }
+]
