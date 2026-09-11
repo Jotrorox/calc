@@ -1,6 +1,6 @@
-//! A stateless, lossless JSON adapter around Kalker's own calculation engine.
+//! Stateless, lossless JSON interface to the project-owned calculation engine.
 
-use kalk::{errors::KalkError, kalk_value::KalkValue, parser};
+use crate::engine::{Engine, value::Value};
 use serde::{Deserialize, Serialize};
 
 pub const MAX_EXPRESSION_BYTES: usize = 16_384;
@@ -38,7 +38,7 @@ pub struct CalcRequest {
     /// Prior inputs evaluated sequentially in the same request-local context.
     #[serde(default)]
     pub context: Vec<String>,
-    /// Requested binary precision; upstream algorithms can have lower accuracy.
+    /// Requested binary precision; numerical algorithms can have lower accuracy.
     #[serde(default = "default_precision")]
     pub precision: u32,
     #[serde(default)]
@@ -124,19 +124,19 @@ pub enum CalcValue {
     },
 }
 
-impl From<&KalkValue> for CalcValue {
-    fn from(value: &KalkValue) -> Self {
+impl From<&Value> for CalcValue {
+    fn from(value: &Value) -> Self {
         match value {
-            KalkValue::Number(real, imaginary, unit) => Self::Number {
+            Value::Number(real, imaginary, unit) => Self::Number {
                 real: normalize_decimal(&real.to_string()),
                 imaginary: normalize_decimal(&imaginary.to_string()),
                 unit: unit.clone(),
             },
-            KalkValue::Boolean(value) => Self::Boolean { value: *value },
-            KalkValue::Vector(values) => Self::Vector {
+            Value::Boolean(value) => Self::Boolean { value: *value },
+            Value::Vector(values) => Self::Vector {
                 values: values.iter().map(Self::from).collect(),
             },
-            KalkValue::Matrix(rows) => Self::Matrix {
+            Value::Matrix(rows) => Self::Matrix {
                 rows: rows
                     .iter()
                     .map(|row| row.iter().map(Self::from).collect())
@@ -234,49 +234,20 @@ impl std::fmt::Display for CalcError {
 
 impl std::error::Error for CalcError {}
 
-impl From<KalkError> for CalcError {
-    fn from(error: KalkError) -> Self {
-        let code = match error {
-            KalkError::TimedOut => "timeout",
-            KalkError::StackOverflow => "recursion_limit",
-            _ => "calculation_error",
-        };
-        Self::new(code, error.to_string())
-    }
-}
-
-/// Evaluate one request in a fresh context. Run this in the supervised worker
-/// process: upstream's cooperative timeout does not cover every parsing/native path.
+/// Evaluate one request in a fresh environment inside the supervised worker.
 pub fn evaluate(request: CalcRequest) -> Result<CalcResponse, CalcError> {
     request.validate()?;
-    let started = std::time::Instant::now();
-    let mut context = parser::Context::new()
-        .set_angle_unit(request.angle_unit.as_str())
-        .set_timeout(Some(EVALUATION_TIMEOUT_MS))
-        .set_max_recursion_depth(MAX_RECURSION_DEPTH);
+    let mut engine = Engine::new(request.precision, request.angle_unit == AngleUnit::Deg);
     for entry in &request.context {
-        let remaining = EVALUATION_TIMEOUT_MS
-            .saturating_sub(started.elapsed().as_millis().min(u32::MAX as u128) as u32);
-        if remaining == 0 {
-            return Err(CalcError::new("timeout", "Operation took too long."));
+        engine.evaluate(entry)?;
+    }
+    let result = engine.evaluate(&request.expression)?.map(|result| {
+        let value = CalcValue::from(&result);
+        CalcResult {
+            formatted: value.to_string(),
+            value,
         }
-        context = context.set_timeout(Some(remaining));
-        parser::eval(&mut context, entry, request.precision)?;
-    }
-    let remaining = EVALUATION_TIMEOUT_MS
-        .saturating_sub(started.elapsed().as_millis().min(u32::MAX as u128) as u32);
-    if remaining == 0 {
-        return Err(CalcError::new("timeout", "Operation took too long."));
-    }
-    context = context.set_timeout(Some(remaining));
-    let result =
-        parser::eval(&mut context, &request.expression, request.precision)?.map(|result| {
-            let value = CalcValue::from(result.value());
-            CalcResult {
-                formatted: value.to_string(),
-                value,
-            }
-        });
+    });
     Ok(CalcResponse {
         result,
         precision: request.precision,

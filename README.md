@@ -1,12 +1,12 @@
 # Calculator API
 
-A Rust JSON API powered by the actual [Kalker calculation engine](https://github.com/PaddiM8/kalker), pinned and vendored at revision `a756ffc76ef083032c2972d73bc3104919fb1f4c`. It exposes two routes: `GET /health` and `POST /calc`.
+A Rust JSON API with a project-owned calculation engine in [`src/engine`](src/engine). The lexer, parser, evaluator, functions, units, collections, and numerical methods are maintained in this repository. There is no vendored or runtime Kalker dependency. The API exposes two routes: `GET /health` and `POST /calc`.
 
-The engine supports arithmetic, complex numbers, functions and variables, piecewise expressions, vectors, matrices, numerical calculus, equations, number bases, and user-defined units. See the [complete capability reference](docs/capabilities.md), [OpenAPI contract](docs/openapi.json), and [executable capability examples](docs/capability-cases.json). Upstream numerical limitations and syntax quirks are documented there.
+The engine supports arithmetic, complex numbers, functions and variables, piecewise expressions, vectors, matrices, numerical calculus, equations, number bases, and user-defined units. See the [complete capability reference](docs/capabilities.md), [OpenAPI contract](docs/openapi.json), and [executable capability examples](docs/capability-cases.json). Numerical limitations and syntax details are documented there.
 
 ## Quick start
 
-Install Rust (the repository pins 1.95.0), a C compiler, `make`, `m4`, and `diffutils`. GMP/MPFR are built from source by the engine; the first build takes several minutes.
+Install Rust (the repository pins 1.95.0), a C compiler, `make`, `m4`, and `diffutils`. GMP/MPFR/MPC are built from source for arbitrary-precision arithmetic; the first build takes several minutes.
 
 ```sh
 cargo run --release --locked
@@ -46,7 +46,7 @@ For example:
 {"context":["f(x)=x^2","f(5)"],"expression":"ans + f(3)","precision":256}
 ```
 
-Requests are stateless. Context is discarded after each request, including failures; users cannot overwrite each other's definitions. To use a local Kalker definitions file, send its contents as one entry in `context`. There is no server filesystem loading, terminal UI, or persistent REPL session.
+Requests are stateless. Context is discarded after each request, including failures; users cannot overwrite each other's definitions. To use a local definitions file, send its contents as one entry in `context`. There is no server filesystem loading, terminal UI, or persistent REPL session.
 
 `result` is `null` for a program that only defines a variable/function/unit. Otherwise it contains `formatted` for display and a recursive `value` for programs:
 
@@ -57,7 +57,7 @@ Requests are stateless. Context is discarded after each request, including failu
 | `vector` | `values`: array of typed values |
 | `matrix` | `rows`: array of arrays of typed values |
 
-Decimal components preserve the engine's selected precision without JSON number/f64 conversion. Nonfinite values are represented as strings (`NaN`, `inf`, `-inf`); inspect both components for complex values. A higher precision does not fix upstream numerical algorithms or constants that use f64 internally. Display text is a convenience; use structured values for computation.
+Decimal components preserve the engine's selected precision without JSON number/f64 conversion. Nonfinite values are represented as strings (`NaN`, `inf`, `-inf`); inspect both components for complex values. Arithmetic, literals, and constants use the requested precision; numerical calculus and equation solving have separate approximation limits. Display text is a convenience; use structured values for computation.
 
 ## Errors and limits
 
@@ -94,9 +94,9 @@ cargo test --workspace --locked
 cargo build --release --locked
 ```
 
-The workspace includes the upstream engine tests and their original fixtures, adapter tests, and black-box HTTP tests that launch the actual server. The capability corpus exercises documented expressions. CI runs formatting, Clippy, tests, and a release build on pushes to `main` and pull requests. Format only `calc-api`; upstream source formatting is intentionally preserved.
+The tests cover the parser, arithmetic, evaluator, JSON adapter, and actual HTTP server. All 227 documented capability cases are exercised through HTTP, and fixed structured results captured before the engine replacement provide independent compatibility checks. CI runs formatting, Clippy, tests, and a release build on pushes to `main` and pull requests.
 
-There are five application dependencies: `axum`, `tokio`, `serde`, `serde_json`, and `kalk`, plus `libc` on Linux for worker memory limits (already present transitively). Axum has only HTTP/1, JSON, and Tokio features enabled. The engine retains its default arbitrary-precision dependencies and upstream WebAssembly bindings. No database, authentication framework, test HTTP client, or expression reimplementation is added. The sole engine patch is a read-only native result accessor; see [provenance](vendor/kalk/UPSTREAM.md).
+The application depends on `axum`, `tokio`, `serde`, and `serde_json`; the engine uses `rug` for arbitrary-precision real, complex, and integer arithmetic. `gmp-mpfr-sys` configures the native arithmetic build, and `libc` supplies Linux worker limits. There are no external expression evaluators or WebAssembly bindings. See [engine architecture](docs/engine.md) for ownership, compatibility, and implementation details.
 
 ## Deployment
 

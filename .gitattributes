@@ -1,2 +1,1 @@
-# Preserve upstream source formatting and identify vendored code on GitHub.
-vendor/** linguist-vendored -whitespace
+* text=auto

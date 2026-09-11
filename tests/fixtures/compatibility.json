@@ -1,0 +1,3114 @@
+[
+  {
+    "request": {
+      "expression": "2 + 3 * 4"
+    },
+    "value": {
+      "type": "number",
+      "real": "14",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(2 + 3) * 4"
+    },
+    "value": {
+      "type": "number",
+      "real": "20",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "2^3^2"
+    },
+    "value": {
+      "type": "number",
+      "real": "512",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "2**5"
+    },
+    "value": {
+      "type": "number",
+      "real": "32",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "-2^2"
+    },
+    "value": {
+      "type": "number",
+      "real": "4",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "-(2^2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-4",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "7 / 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "3.5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "1 / 8"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.25e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "5!"
+    },
+    "value": {
+      "type": "number",
+      "real": "120",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0!"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "50%"
+    },
+    "value": {
+      "type": "number",
+      "real": "5.000000000000000104083408558608425664715e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "200 + 10%"
+    },
+    "value": {
+      "type": "number",
+      "real": "220.0000000000000004163336342344337026589",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "200 - 10%"
+    },
+    "value": {
+      "type": "number",
+      "real": "179.9999999999999995836663657655662973411",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "200 * 10%"
+    },
+    "value": {
+      "type": "number",
+      "real": "20.00000000000000041633363423443370265886",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "1.25E3"
+    },
+    "value": {
+      "type": "number",
+      "real": "1250",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "3E-2"
+    },
+    "value": {
+      "type": "number",
+      "real": "3.000000000000000000000000000000000000002e-2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "2(3 + 4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "14",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "2 \u00d7 3 + 8 \u00f7 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "10",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "|-3|"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u230a2.6\u230b"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u23084.2\u2309"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "floor(-2.6)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "ceil(-2.6)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "round(2.6)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "trunc(-2.6)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "frac(2.25)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2.5e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "frac(-2.25)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-2.5e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sgn(-5)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sgn(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "x = 2; y = 3; xy + x"
+    },
+    "value": {
+      "type": "number",
+      "real": "8",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "long_name = 7; long_name + 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "9",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "x\u2082\u2083 = 3; x\u2082\u2083 + 1"
+    },
+    "value": {
+      "type": "number",
+      "real": "4",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "x = 2; x = 5; x"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = 2x^2 + x; f(3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "21",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x, y) = xy + 1; f(3, 4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "13",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = 2x; g(x) = f(x) + 3; g(4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "11",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = { -x if x < 0; x otherwise }; f(-5)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = { f(x - 1) if x >= 1; x otherwise }; f(5)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "g(x, y) = { g(x - 1, y + 1) if x >= 1; y otherwise }; g(5, 0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "ans * 4",
+      "context": [
+        "2 + 3"
+      ]
+    },
+    "value": {
+      "type": "number",
+      "real": "20",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sqrt4"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x)=2x; f3"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "pi > 3 and pi < 4"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "(\u03c0 = pi)"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "(tau = 2pi)"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "(\u03c4 = tau)"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "e > 2 and e < 3"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "phi > 1 and phi < 2"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "(\u03d5 = phi)"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cos(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "tan(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sec(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(90 deg)"
+    },
+    "value": {
+      "type": "number",
+      "real": "9.99999999999999999999999999999998125301e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cos(180 deg)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-9.999999999999999999999999999999925012012e-1",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "tan(pi/4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "9.999999999999999387676600426323430133966e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "csc(pi/2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.00000000000000000000000000000000187469896184252350773993048245144231078076719002277955692591204661305660947360839760214399406583725660117764872150796978725767761901320025705668984102684870944507710861832486326393661104914960622812490897422301584074221668465044441457215219420582007580150977665176883390446337",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cot(pi/4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.000000000000000061232339957367660736004",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "asin(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acos(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "atan(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "asec(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(pi/6)"
+    },
+    "value": {
+      "type": "number",
+      "real": "4.999999999999999823237460212515520695641e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acsc(2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5.235987755982988730771072305465838140328615665625176368291574320513027343810348331046724708903528446636913477522137177745156407682584303719542265680214135195750473504503230868509266074371581591550636607381351626109889076880792747056311305275452003181909414278205767247684090544413688989345433748568789540978329e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acot(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "7.853981633974483096156608458198757210488e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sinh(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cosh(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "tanh(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sech(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "asinh(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acosh(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "atanh(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "asech(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "csch(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "8.50918128239321545133842763287175284183355061203905791737976322131693156054611608683974984776848463080227062891648356608329296579301461102501411770066163085971439593446411569355332499113799165416604402531715936052847639635571864350782270288170276373617346073191472627596752571686149038800214700438641675847257e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "coth(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.313035285499331303636161246930847832913",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acsch(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "8.813735870195430252326093249797923090287e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "acoth(2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5.493061443340548456976226184612628523237452789113747258673471668187471466093044834368078774068660443939850145329789328711840021129652599105264009353836387053015813845916906835896868494221804799518712851583979557605727959588753356735274700833877901111015851264734487803450532607528214340690181586866492888911863e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sqrt(81)"
+    },
+    "value": {
+      "type": "number",
+      "real": "9",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u221a64"
+    },
+    "value": {
+      "type": "number",
+      "real": "8",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cbrt(-27)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "root(81, 4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "exp(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "ln(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "log(1000)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "log(8, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "log\u2082(32)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "gamma(5)"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u0393(5)"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "hypot(3, 4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "gcd(18, 24)"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "lcm(6, 8)"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "nCr(5, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "10",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "comb(5, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "10",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "nPr(5, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "20",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "perm(5, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "20",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitand(6, 3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitor(6, 3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "7",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitxor(6, 3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitcmp(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitshift(3, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "12",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "bitshift(12, -2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "3 << 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "12",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "12 >> 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "i^2"
+    },
+    "value": {
+      "type": "number",
+      "real": "-1",
+      "imaginary": "1.883041077660785116745909548456034940273e-39",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sqrt(-4)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "2",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(2 + 3i) + (4 - i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "2",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(2 + 3i) * (4 - i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "11",
+      "imaginary": "10",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(1 + i) / (1 - i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "1",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "Re(3 + 4i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "Im(3 + 4i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "4",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "abs(3 + 4i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sgn(3 + 4i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "6.000000000000000000000000000000000000012e-1",
+      "imaginary": "8.000000000000000000000000000000000000006e-1",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "floor(2.6 + 3.8i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "3",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "exp(i*pi)"
+    },
+    "value": {
+      "type": "number",
+      "real": "-9.999999999999999999999999999999925012010866907120267676217725716190568382889479433093125189357190394260617194140258039959974891492661431379091154623748489441256111816130875997034292573202302431286819957213985269684977713047020381803641190447350359124210153964337984529993071943813877343732758879919961738797097e-1",
+      "imaginary": "1.224646799147353177226065932274997997083053901299791949488257716260869609973258103775093255275690136554564285400744141891366738100036560579357641182174366376768350160197788336138385804707030607416305700667509479259024432958734878190322594355138611855017964128430276077969702595237689235032062489257333737768592e-16",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "ln(-1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724586997",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "arg(i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.570796326794896619231321691639751442098",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "1.175201193643801456882381850595600815153466239001280882395929660514569242886690194293229649868948172297677956521511077880859375",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "true and false"
+    },
+    "value": {
+      "type": "boolean",
+      "value": false
+    }
+  },
+  {
+    "request": {
+      "expression": "true or false"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "not false"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "\u00acfalse"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "true \u2227 true"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "false \u2228 true"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "2 != 3"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "2 \u2260 3"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "2 <= 2"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "3 \u2265 2"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "1 < 2 < 3"
+    },
+    "value": {
+      "type": "boolean",
+      "value": true
+    }
+  },
+  {
+    "request": {
+      "expression": "1 < 2 > 3"
+    },
+    "value": {
+      "type": "boolean",
+      "value": false
+    }
+  },
+  {
+    "request": {
+      "expression": "iverson(2 > 1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "iverson(2 < 1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0b1101"
+    },
+    "value": {
+      "type": "number",
+      "real": "13",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0o17"
+    },
+    "value": {
+      "type": "number",
+      "real": "15",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0xff"
+    },
+    "value": {
+      "type": "number",
+      "real": "255",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "1101_2"
+    },
+    "value": {
+      "type": "number",
+      "real": "13",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "101\u2082"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "13.5_8"
+    },
+    "value": {
+      "type": "number",
+      "real": "11.625",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0b1101.101"
+    },
+    "value": {
+      "type": "number",
+      "real": "13.625",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0xb.5"
+    },
+    "value": {
+      "type": "number",
+      "real": "11.3125",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "0b101 + 0o10 + 0xf"
+    },
+    "value": {
+      "type": "number",
+      "real": "28",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(2, 3, 5) + (7, 11, 13)"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "9",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "14",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "18",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "(2, 3, 5) - (7, 11, 13)"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "-5",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "-8",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "-8",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "(2, 3, 5) * (7, 11, 13)"
+    },
+    "value": {
+      "type": "number",
+      "real": "112",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(8, 9, 25) / (2, 3, 5)"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "5",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "(2, 3, 5) + 2"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "5",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "7",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "(2, 3, 5) * 2"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "6",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "10",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "abs([-3, 2, -5])"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "2",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "5",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "sqrt((4, 9, 16))"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "2",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "length((10, 20, 30))"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sort((3, 1, 2))"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "1",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "2",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "append((1, 2), 3)"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "1",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "2",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "average((1, 2, 3))"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sum((1, 2, 3))"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "prod((2, 3, 4))"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "min((3, 1, 2))"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "max((3, 1, 2))"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(10, 20, 30)[[2]]"
+    },
+    "value": {
+      "type": "number",
+      "real": "20",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(10, 20, 30)\u27e63\u27e7"
+    },
+    "value": {
+      "type": "number",
+      "real": "30",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "length(perms((1, 2, 3)))"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "length(permutations((1, 1, 2)))"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4]"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4] + [2, 3; 4, 5]"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "5",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "7",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "9",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4] * [5, 6; 7, 8]"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "19",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "22",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "43",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "50",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[4, 9; 12, 3] / [2, 3; 4, 3]"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4] * (2, 3)"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "8",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "18",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "transpose([1, 2; 3, 4])"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4]\u1d40"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "diag((2, 3))"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "0",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "0",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "matrix(((1, 2), (3, 4)))"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "trace([1, 2; 3, 4])"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "det([1, 2; 3, 4])"
+    },
+    "value": {
+      "type": "number",
+      "real": "-2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "determinant([1, 2; 3, 4])"
+    },
+    "value": {
+      "type": "number",
+      "real": "-2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "length([1, 2; 3, 4])"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4][[2, 1]]"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "[x : 0 \u2264 x and 5 > x]"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "0",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "1",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "2",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[x^2 : x >= 1 and x <= 4]"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "1",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "9",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "16",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[(x, y) : x > 0 and x <= 2, y > 0 and y <= 2]"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "vector",
+          "values": [
+            {
+              "type": "number",
+              "real": "1",
+              "imaginary": "0",
+              "unit": null
+            },
+            {
+              "type": "number",
+              "real": "1",
+              "imaginary": "0",
+              "unit": null
+            }
+          ]
+        },
+        {
+          "type": "vector",
+          "values": [
+            {
+              "type": "number",
+              "real": "1",
+              "imaginary": "0",
+              "unit": null
+            },
+            {
+              "type": "number",
+              "real": "2",
+              "imaginary": "0",
+              "unit": null
+            }
+          ]
+        },
+        {
+          "type": "vector",
+          "values": [
+            {
+              "type": "number",
+              "real": "2",
+              "imaginary": "0",
+              "unit": null
+            },
+            {
+              "type": "number",
+              "real": "1",
+              "imaginary": "0",
+              "unit": null
+            }
+          ]
+        },
+        {
+          "type": "vector",
+          "values": [
+            {
+              "type": "number",
+              "real": "2",
+              "imaginary": "0",
+              "unit": null
+            },
+            {
+              "type": "number",
+              "real": "2",
+              "imaginary": "0",
+              "unit": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "sum(n=1, 3, 2n+1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "15",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sum(k=1, 5, 2k)"
+    },
+    "value": {
+      "type": "number",
+      "real": "30",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u03a3(k=1, 3, k^2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "14",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u2211(k=1, 3, k)"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "prod(k=1, 4, k)"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u220f(k=1, 4, k)"
+    },
+    "value": {
+      "type": "number",
+      "real": "24",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sum(a=1, 3, \u03a3(b=1, 3, a + b))"
+    },
+    "value": {
+      "type": "number",
+      "real": "36",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "n=10; sum(n=1, 5, 2n) + n"
+    },
+    "value": {
+      "type": "number",
+      "real": "40",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = 2x^2 + x; f'(2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "9",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin'(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "f(x) = x^3; f''(2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "12",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "integrate(0, 1, x dx)"
+    },
+    "value": {
+      "type": "number",
+      "real": "4.999999999999997547287998755100963742846e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "integral(0, 1, x^2 dx)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3.333333333333330880621332088452144156507e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u222b(0, pi, sin(x) dx)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "integrate(0, pi, sinx, dx)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "x^2 = 64"
+    },
+    "value": {
+      "type": "number",
+      "real": "7.999999999999828681536342818641932907026787302915348007904181950409721782130213273629292357737134711026527611466008238494396209716796875",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "3x^3 - 2x = x^2 + 2"
+    },
+    "value": {
+      "type": "number",
+      "real": "1.27077632668196930056593032181343742595028217549884245841382112215720055439940827945553795540849475032084997419383476380261299709673039615154266357421875",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "{x + y + z = 9; z*x - y = 10; 4y + 12x - 2 = 42}"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "3.000000000000060840221749458578415215015411376953125",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "1.9999999999998172572901466992334462702274322509765625",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "4.00000000000012168044349891715683043003082275390625",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "17 % 5"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "unit cm = 100m; 250 cm to m"
+    },
+    "value": {
+      "type": "number",
+      "real": "2.5",
+      "imaginary": "0",
+      "unit": "m"
+    }
+  },
+  {
+    "request": {
+      "expression": "unit F = C*9/5 + 32; 100C to F"
+    },
+    "value": {
+      "type": "number",
+      "real": "212",
+      "imaginary": "0",
+      "unit": "F"
+    }
+  },
+  {
+    "request": {
+      "expression": "unit F = C*9/5 + 32; 32F to C"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": "C"
+    }
+  },
+  {
+    "request": {
+      "expression": "17 mod 5"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "\u221b27"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "log_2(32)"
+    },
+    "value": {
+      "type": "number",
+      "real": "5",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(90\u00b0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "9.99999999999999999999999999999998125301e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin\u207b\u00b9(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cos\u207b\u00b9(1)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "tan\u207b\u00b9(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "0",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "iverson(0)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sum(1, 2, 3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "average(1, 2, 3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "2",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "min(3, 1, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "max(3, 1, 2)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4][[2]]"
+    },
+    "value": {
+      "type": "vector",
+      "values": [
+        {
+          "type": "number",
+          "real": "3",
+          "imaginary": "0",
+          "unit": null
+        },
+        {
+          "type": "number",
+          "real": "4",
+          "imaginary": "0",
+          "unit": null
+        }
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4]^T"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "abs([-1, 2; -3, 4])"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "3",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "4",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4] + (10, 20)"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "11",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "12",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "23",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "24",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "[1, 2; 3, 4] / 2"
+    },
+    "value": {
+      "type": "matrix",
+      "rows": [
+        [
+          {
+            "type": "number",
+            "real": "5e-1",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "1",
+            "imaginary": "0",
+            "unit": null
+          }
+        ],
+        [
+          {
+            "type": "number",
+            "real": "1.5",
+            "imaginary": "0",
+            "unit": null
+          },
+          {
+            "type": "number",
+            "real": "2",
+            "imaginary": "0",
+            "unit": null
+          }
+        ]
+      ]
+    }
+  },
+  {
+    "request": {
+      "expression": "trace([7,7,-9;9,-3,-4;-4,2,5])"
+    },
+    "value": {
+      "type": "number",
+      "real": "9",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "det([3,1,-4;2,5,6;1,4,8])"
+    },
+    "value": {
+      "type": "number",
+      "real": "26",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "gcd(5+5i, 3+i)"
+    },
+    "value": {
+      "type": "number",
+      "real": "3",
+      "imaginary": "1",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "context": [
+        "f(x)=2x^2+x"
+      ],
+      "expression": "f(3)"
+    },
+    "value": {
+      "type": "number",
+      "real": "21",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "context": [
+        "2+3",
+        "ans*2"
+      ],
+      "expression": "ans+1"
+    },
+    "value": {
+      "type": "number",
+      "real": "11",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "context": [
+        "x=2; y=3"
+      ],
+      "expression": "xy"
+    },
+    "value": {
+      "type": "number",
+      "real": "6",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "sin(90)",
+      "angle_unit": "deg"
+    },
+    "value": {
+      "type": "number",
+      "real": "9.99999999999999999999999999999998125301e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "cos(180)",
+      "angle_unit": "deg"
+    },
+    "value": {
+      "type": "number",
+      "real": "-9.999999999999999999999999999999925012012e-1",
+      "imaginary": "-0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "asin(1)",
+      "angle_unit": "deg"
+    },
+    "value": {
+      "type": "number",
+      "real": "90.00000000000000350835464926743803866967",
+      "imaginary": "0",
+      "unit": "deg"
+    }
+  },
+  {
+    "request": {
+      "expression": "sin((pi/2) rad)",
+      "angle_unit": "deg"
+    },
+    "value": {
+      "type": "number",
+      "real": "9.99999999999999999999999999999998125301e-1",
+      "imaginary": "0",
+      "unit": null
+    }
+  },
+  {
+    "request": {
+      "expression": "(2^200 + 1) - 2^200",
+      "precision": 256
+    },
+    "value": {
+      "type": "number",
+      "real": "1",
+      "imaginary": "0",
+      "unit": null
+    }
+  }
+]

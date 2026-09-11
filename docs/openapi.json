@@ -3,7 +3,7 @@
   "info": {
     "title": "Calculator API",
     "version": "0.1.0",
-    "description": "Stateless Kalker engine API. See capabilities.md for language and upstream numerical limits. Request body 32 KiB; combined input 16 KiB; worker output 2 MiB."
+    "description": "Stateless calculator API with a project-owned engine. See capabilities.md for language and numerical limits. Request body 32 KiB; combined input 16 KiB; worker output 2 MiB."
   },
   "servers": [
     {
@@ -45,7 +45,7 @@
     "/calc": {
       "post": {
         "operationId": "calculate",
-        "summary": "Evaluate a Kalker program",
+        "summary": "Evaluate a calculator program",
         "requestBody": {
           "required": true,
           "content": {

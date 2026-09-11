@@ -1,6 +1,6 @@
 # Calculator language and capabilities
 
-The API uses the Rust `kalk` engine from [Kalker revision `a756ffc76ef083032c2972d73bc3104919fb1f4c`](https://github.com/PaddiM8/kalker/tree/a756ffc76ef083032c2972d73bc3104919fb1f4c), including its default GMP/MPFR-backed `rug` arithmetic. This preserves Kalker's calculation language, complex numbers, collections, numerical methods, and function registry. It is not a symbolic computer algebra system.
+The API uses the project-owned Rust engine in [`src/engine`](../src/engine), with GMP/MPFR/MPC-backed `rug` arithmetic. Its language preserves the established calculation syntax, complex numbers, collections, numerical methods, and function catalog. It is not a symbolic computer algebra system. See [engine architecture](engine.md) for the compatibility tests and module responsibilities.
 
 Send the expressions below in the request's `expression` field. Definitions can precede a calculation, separated by semicolons or newlines. Every request has a fresh environment. To prepare a sequence of evaluations, provide `context`, an array of expressions evaluated in order before `expression`; this is also how to use the answer from an earlier evaluation:
 
@@ -8,7 +8,7 @@ Send the expressions below in the request's `expression` field. Definitions can 
 {"context":["2 + 3"],"expression":"ans * 4"}
 ```
 
-The result is `20`. Definitions and `ans` last only for that request. Put reusable definitions or the contents of a Kalker definitions file into `context` or `expression`; the server does not load a path from its filesystem. A final declaration has no calculated value.
+The result is `20`. Definitions and `ans` last only for that request. Put reusable definitions or the contents of a file of definitions into `context` or `expression`; the server does not load a path from its filesystem. A final declaration has no calculated value.
 
 ## Numbers, arithmetic, and grouping
 
@@ -26,7 +26,7 @@ The result is `20`. Definitions and `ans` last only for that request. Put reusab
 | Ceiling/floor | `⌈4.2⌉`, `⌊2.6⌋` | `5`, `2` |
 | Unicode operators | `2 × 3`, `2 ⋅ 3`, `8 ÷ 2` | Multiplication and division |
 
-Powers associate to the right: `2^3^2` means `2^(3^2)`. Kalker applies unary minus before powers: **`-2^2` evaluates to `4`**; write `-(2^2)` for `-4`. Its permissive implied multiplication and calls without parentheses can be ambiguous, so parentheses are useful in generated expressions. `%` is a suffix percentage or binary remainder depending on context. A percentage on the right of addition/subtraction is relative to the left operand, as the examples above show. [Pinned parser](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/parser.rs), [operator evaluation](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/interpreter.rs).
+Powers associate to the right: `2^3^2` means `2^(3^2)`. The parser applies unary minus before powers: **`-2^2` evaluates to `4`**; write `-(2^2)` for `-4`. Its permissive implied multiplication and calls without parentheses can be ambiguous, so parentheses are useful in generated expressions. `%` is a suffix percentage or binary remainder depending on context. A percentage on the right of addition/subtraction is relative to the left operand, as the examples above show.
 
 ## Variables, functions, and conditional expressions
 
@@ -38,9 +38,9 @@ f(x) = { -x if x < 0; x otherwise }; f(-5)
 f(x) = { f(x - 1) if x >= 1; x otherwise }; f(5)
 ```
 
-These yield `8`, `13`, `11`, `5`, and `0`. Functions support multiple arguments, other user functions, local parameters, recursion, and multiple piecewise branches. Variables/functions can be redefined. Names can contain underscores and subscripts, for example `long_name` and `x₂₃`. Built-in constants cannot be overwritten. `sqrt4` and `f3` are accepted calls when the function is known.
+These yield `8`, `13`, `11`, `5`, and `0`. Functions support multiple arguments, other user functions, local parameters, recursion, and multiple piecewise branches. Variables/functions can be redefined. Variable definitions are lazy: `x=2; y=x+1; x=4; y` gives `5`. Self-referential variables are rejected. Names can contain underscores and subscripts, for example `long_name` and `x₂₃`. Built-in constants cannot be overwritten. `sqrt4` and `f3` are accepted calls when the function is known.
 
-A bare `x = 2` is a definition. Use `(x = 2)` or a conditional expression when you intend equality. An equation with an unknown variable, such as `x^2 = 64`, invokes the numerical solver. [`analysis.rs`](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/analysis.rs), [definition and recursion tests](https://github.com/PaddiM8/kalker/tree/a756ffc76ef083032c2972d73bc3104919fb1f4c/tests).
+A bare `x = 2` is a definition. Use `(x = 2)` or a conditional expression when you intend equality. An equation with an unknown variable, such as `x^2 = 64`, invokes the numerical solver.
 
 ## Constants and complex arithmetic
 
@@ -65,11 +65,11 @@ Im(3 + 4i)
 ln(-1)
 ```
 
-The first six values are `11 + 10i`, `2i`, `i`, `5`, `3`, and `4`; the last is approximately `pi*i`. `arg(z)` gives the complex argument, and `sgn(z)` gives `z/abs(z)` for a nonzero complex value. Complex branches follow Kalker. Support is function-specific: `gamma`, factorial, and `cbrt` use the real component in this upstream version, so they are not general complex gamma/cube-root implementations. [Constants and functions](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/prelude/mod.rs), [rug-specific functions](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/prelude/with_rug.rs).
+The first six values are `11 + 10i`, `2i`, `i`, `5`, `3`, and `4`; the last is approximately `pi*i`. `arg(z)` gives the complex argument, and `sgn(z)` gives `z/abs(z)` for a nonzero complex value. Complex functions use principal branches. Support is function-specific: `gamma`, factorial, and `cbrt` use the real component for compatibility, so they are not general complex gamma/cube-root implementations.
 
 ## Complete built-in function catalog
 
-Names are case-sensitive. `Re`, `Im`, `nCr`, and `nPr` use the capitalization shown. This catalog follows the pinned engine's function registries, including aliases.
+Names are case-sensitive. `Re`, `Im`, `nCr`, and `nPr` use the capitalization shown. This catalog includes the supported aliases.
 
 | Family | Functions | Notes/examples |
 | --- | --- | --- |
@@ -96,7 +96,7 @@ Names are case-sensitive. `Re`, `Im`, `nCr`, and `nPr` use the capitalization sh
 | Numerical calculus | `integrate`, `integral`, `∫`; primes on function names | See below |
 | Bounded reductions | `sum`, `Σ`, `∑`, `prod`, `∏` | Use explicit iteration variable, for example `sum(k=1,3,k^2)` |
 
-The lexer also accepts inverse-function notation such as `sin⁻¹(0)`, `cos⁻¹(1)`, and `tan⁻¹(0)`. Use the catalog's ASCII names when generating calls. [Function registry](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/prelude/mod.rs), [Unicode aliases](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/lexer.rs).
+The lexer also accepts inverse-function notation such as `sin⁻¹(0)`, `cos⁻¹(1)`, and `tan⁻¹(0)`. Use the catalog's ASCII names when generating calls.
 
 ## Angles and custom units
 
@@ -112,13 +112,13 @@ unit F = C*9/5 + 32; 32F to C
 
 These give `2.5 m`, `212 F`, and `0 C`. Arithmetic can convert compatible operands: `unit cm=100m; 250cm + 1m` gives `350 cm`. The formula describes the numeric value in the newly defined unit in terms of the base unit; `unit cm = 100m` means 100 centimeters per meter. Definitions can use nonlinear expressions when the engine can invert them. This is a conversion-formula system, not a complete dimensional-analysis system: do not infer physical-unit cancellation, compound-unit algebra, or an arbitrary conversion graph.
 
-Upstream has a parser limitation for multi-letter target units in `to` expressions: `250 cm to m` works, while `2m to cm` and `180 deg to rad` can fail with an undefined-variable error. Angle suffixes used directly in trig functions work. Upstream degree mode also applies angle conversion to the hyperbolic families, and that conversion operates on the real component. Use radians for conventional hyperbolic and complex trigonometric calculations. [Unit initialization and angle routing](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/prelude/mod.rs), [unit declaration/inversion](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/parser.rs).
+Conversion targets can be multi-letter unit names. Angle suffixes used directly in trig functions override the request angle mode. Degree mode also applies angle conversion to the hyperbolic families for compatibility; use radians for conventional hyperbolic calculations.
 
 ## Booleans and comparisons
 
-Use `true`, `false`, `=`, `!=`/`≠`, `<`, `>`, `<=`/`≤`, and `>=`/`≥`. Logical operators are `and`/`∧`, `or`/`∨`, and `not`/`¬`. Comparisons can be chained: `1 < 2 < 3` is true. Boolean values can be returned or used in piecewise functions and comprehensions. `iverson` converts false to zero and true to one; in this upstream version non-boolean inputs produce one, including `iverson(0)`.
+Use `true`, `false`, `=`, `!=`/`≠`, `<`, `>`, `<=`/`≤`, and `>=`/`≥`. Logical operators are `and`/`∧`, `or`/`∨`, and `not`/`¬`. Comparisons can be chained: `1 < 2 < 3` is true. Boolean values can be returned or used in piecewise functions and comprehensions. `iverson` converts false to zero and true to one; for compatibility non-boolean inputs produce one, including `iverson(0)`.
 
-Equality uses the engine's numerical comparison tolerance, rather than an exact arbitrary-precision proof. [Comparison implementation](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/kalk_value/mod.rs).
+Equality uses the engine's numerical comparison tolerance, rather than an exact arbitrary-precision proof.
 
 ## Vectors and matrices
 
@@ -145,7 +145,7 @@ Vectors use `(x,y,z)` or `[x,y,z]`. Matrices use bracketed rows separated by sem
 | Matrix indexing | `[1,2;3,4][[2,1]]` | `3` |
 | Matrix row indexing | `[1,2;3,4][[2]]` | `(3,4)` |
 
-Indexes are **one-based**, with `⟦…⟧` as an alternative to `[[…]]`. Matrix/vector addition, subtraction, and division broadcast one vector value per matrix row; matrix/scalar operations broadcast the scalar. Collection multiplication has the linear-algebra behavior shown above, and division is componentwise rather than matrix inversion. Many unary numeric functions map over vectors/matrices. Provide matching sizes and rectangular rows; trace/determinant are defined for square matrices. The upstream parser does not consistently reject ragged matrices, so successful parsing alone does not validate a matrix shape. Matrix powers accept nonnegative real integers; the zero power returns the scalar `1` in this upstream version, and negative powers are unsupported. No general matrix inverse, eigenvalue, or cross-product function is registered. [Vector/matrix tests](https://github.com/PaddiM8/kalker/tree/a756ffc76ef083032c2972d73bc3104919fb1f4c/tests/matrices), [collection operators](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/kalk_value/mod.rs).
+Indexes are **one-based**, with `⟦…⟧` as an alternative to `[[…]]`. Matrix/vector addition, subtraction, and division broadcast one vector value per matrix row; matrix/scalar operations broadcast the scalar. Collection multiplication has the linear-algebra behavior shown above, and division is componentwise rather than matrix inversion. Many unary numeric functions map over vectors/matrices. Provide matching sizes and rectangular rows; trace/determinant are defined for square matrices. Ragged matrices are rejected. Matrix powers accept nonnegative real integers; the zero power returns the scalar `1` for compatibility, and negative powers are unsupported. No general matrix inverse, eigenvalue, or cross-product function is registered.
 
 ## Comprehensions, sums, and products
 
@@ -160,7 +160,7 @@ sum(a=1, 3, Σ(b=1, 3, a+b))
 
 Results are `(0,1,2,3,4)`, `(1,4,9,16)`, `((1,1),(1,2),(2,1),(2,2))`, `30`, `24`, and `36`. Comprehensions enumerate bounded integer ranges inferred from the conditions. Multiple ranges generate combinations. Bounded sums/products include both endpoints, support nesting, and restore existing iteration-variable values.
 
-Use the explicit `k=1` form. Although the upstream README advertises `sum(1,3,2n+1)`, the pinned interpreter does not recognize that form as an iteration; `sum(n=1,3,2n+1)` is the supported equivalent. Ordinary vector reductions `sum((1,2,3))` and `prod((2,3,4))` remain available. [Comprehension tests](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/tests/comprehensions.kalker), [loop dispatch](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/interpreter.rs).
+Use the explicit `k=1` form. For example, `sum(n=1,3,2n+1)` iterates over `n`, whereas `sum(1,3,2n+1)` is an ordinary reduction of three arguments. Ordinary vector reductions `sum((1,2,3))` and `prod((2,3,4))` remain available.
 
 ## Differentiation, integration, and equations
 
@@ -177,7 +177,7 @@ Use the explicit `k=1` form. Although the upstream README advertises `sum(1,3,2n
 | Nonlinear root | `3x^3 - 2x = x^2 + 2` | `1.2707763267` |
 | Equation system | `{x+y+z=9;z*x-y=10;4y+12x-2=42}` | `(3,2,4)` for `(x,y,z)` |
 
-These operations evaluate numerically. Derivatives use finite differences with an upstream fixed step of `1e-6`; higher derivatives and noisy/discontinuous functions can be inaccurate. Integrals use numerical tanh-sinh quadrature with fixed stopping criteria and finite limits. Root finding uses Newton iteration, starts from an upstream-selected guess, can fail to converge, and returns one solution rather than all roots. Equation-system results follow sorted variable-name order. Neither symbolic differentiation/integration nor a complete algebraic equation solver is provided. Increasing arithmetic precision does not remove these algorithmic limitations. [Numerical algorithms](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/numerical.rs), [equation analysis](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/analysis.rs).
+These operations evaluate numerically. Derivatives use finite differences; higher derivatives and noisy/discontinuous functions can be inaccurate. Integrals use numerical quadrature over finite limits. Root finding uses Newton iteration, can fail to converge, and returns one solution rather than all roots. Equation-system results follow sorted variable-name order. Neither symbolic differentiation/integration nor a complete algebraic equation solver is provided. Increasing arithmetic precision does not remove these algorithmic limitations.
 
 ## Number bases
 
@@ -193,16 +193,16 @@ Binary, octal, and hexadecimal prefixes support fractional parts:
 | `1101_2`, `1101₂` | `13` |
 | `13.5_8` | `11.625` |
 
-The underscore/subscript form only uses decimal digit characters; letters are interpreted as variables. The API's numeric strings use decimal representation. Kalker also has radix-oriented terminal display helpers, which are presentation features rather than a separate calculation language. Base conversion in upstream includes `f64` intermediate calculations, so arbitrary precision is not guaranteed for very long non-decimal literals. [Radix parser](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/radix.rs).
+The underscore/subscript form only uses decimal digit characters; letters are interpreted as variables. The API's numeric strings use decimal representation. Radix literals are accumulated directly at the requested arithmetic precision; output is always decimal.
 
 ## Precision and practical limits
 
-The API accepts a binary precision setting; it does not promise that every returned digit is mathematically accurate. The pinned engine mixes MPFR values with fixed-precision intermediates: its numeric-literal helper initially creates 1024-bit values, built-in `pi`/`e`/`tau`/`phi` originate as `f64`, and several conversions and numeric algorithms use floating-point approximations. The `bit*` functions coerce to signed 32-bit integers; they are not arbitrary-size integer bit operations. The separate `<<`/`>>` operators scale a real number by a power of two, so `5 >> 1` gives `2.5`, whereas `bitshift(5,-1)` gives `2`. Use small integer counts for `bitshift`, and explicit whole-number indexes. [Numeric helper and comparison tolerance](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/kalk_value/mod.rs), [bit functions](https://github.com/PaddiM8/kalker/blob/a756ffc76ef083032c2972d73bc3104919fb1f4c/kalk/src/prelude/with_rug.rs).
+The API accepts a binary precision setting; it does not promise that every returned digit is mathematically accurate. Literals, arithmetic, and built-in `pi`/`e`/`tau`/`phi` use the requested precision. Numerical algorithms still use finite tolerances and some fixed-precision intermediates. The `bit*` functions coerce to signed 32-bit integers; they are not arbitrary-size integer bit operations. The separate `<<`/`>>` operators scale a real number by a power of two, so `5 >> 1` gives `2.5`, whereas `bitshift(5,-1)` gives `2`. Use small integer counts for `bitshift`, and explicit whole-number indexes.
 
-Undefined names, malformed expressions, incompatible collection dimensions, unsupported argument types, missing differentials, and equations without a found root produce errors. Some numerical domains produce NaN or infinity instead of a mathematical value. Empty collections and malformed calls expose upstream edge cases; do not assume every registered function accepts every value type. Request-size, runtime, recursion, output-size, and process limits apply to prevent an expensive expression from taking over the API. The HTTP documentation describes the configured limits and error representations.
+Undefined names, malformed expressions, incompatible collection dimensions, unsupported argument types, missing differentials, and equations without a found root produce errors. Some numerical domains produce NaN or infinity instead of a mathematical value. Function arguments, collection shapes, and indexes are validated; not every function accepts every value type. Request-size, runtime, recursion, output-size, and process limits apply to prevent an expensive expression from taking over the API. The HTTP documentation describes the configured limits and error representations.
 
-Kalker's terminal/browser/mobile interfaces also provide syntax highlighting, tab completion, interactive history, pretty terminal layouts, and local file loading. Those are interface facilities. This service exposes the calculation engine through HTTP, with request-local definitions and context in place of interactive sessions. It does not execute shell commands or load server files from calculator expressions.
+This service exposes the calculation engine through HTTP, with request-local definitions and context in place of interactive sessions. It does not execute shell commands or load server files from calculator expressions.
 
 ## Executable examples
 
-[`capability-cases.json`](capability-cases.json) is the machine-readable capability corpus used by the integration suite. Each of the 227 entries contains a category, an expression, and an `expected` reference expression. Some also select `context`, `precision`, or `angle_unit`. Reference expressions with custom units declare those units independently before returning the expected value. Numerical methods require tolerances, and structured real/imaginary/vector/matrix results are preferable to matching the engine's terminal formatting.
+[`capability-cases.json`](capability-cases.json) is the machine-readable capability corpus used by the integration suite. Each of the 227 entries contains a category, an expression, and an `expected` reference expression. Some also select `context`, `precision`, or `angle_unit`. Reference expressions with custom units declare those units independently before returning the expected value. Independent fixed results from the preceding release also live in [`tests/fixtures/compatibility.json`](../tests/fixtures/compatibility.json). Numerical methods require tolerances, and structured real/imaginary/vector/matrix results are preferable to matching the engine's terminal formatting.

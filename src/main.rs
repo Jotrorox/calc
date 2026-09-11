@@ -43,7 +43,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn worker() -> Result<(), Box<dyn std::error::Error>> {
     #[cfg(target_os = "linux")]
     limit_worker_memory()?;
-    // Never let an upstream panic contaminate the HTTP server or its output.
+    // Never let an engine panic contaminate the HTTP server or its output.
     std::panic::set_hook(Box::new(|_| {}));
     let mut input = Vec::new();
     std::io::stdin()
