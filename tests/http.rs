@@ -913,6 +913,56 @@ fn validate_calculator_value(value: &Value) -> Result<(), String> {
 }
 
 #[test]
+fn nonfinite_equations_return_errors_over_http() {
+    let server = Server::start();
+    for expression in ["x+0/0=0", "{x+0/0=0;y=0}", "x+1/0=0"] {
+        let error = server.expression(expression).error(422);
+        assert_eq!(error["error"]["code"], "calculation_error", "{expression}");
+    }
+    assert_eq!(server.expression("2+2").real(), 4.0);
+}
+
+#[test]
+fn nonlinear_unit_inversion_round_trips_over_http() {
+    let server = Server::start();
+    let inverse = server
+        .expression("unit foo=m+m*(m-1)*(m-2);9foo to m")
+        .success();
+    let value = &inverse["result"]["value"];
+    assert_eq!(value["unit"], "m");
+    assert_close(number_component(value, "real"), 3.0, 1e-7);
+    let forward = server
+        .expression("unit foo=m+m*(m-1)*(m-2);3m to foo")
+        .success();
+    let value = &forward["result"]["value"];
+    assert_eq!(value["unit"], "foo");
+    assert_close(number_component(value, "real"), 9.0, 1e-7);
+}
+
+#[test]
+fn collection_unit_arithmetic_matches_scalars_over_http() {
+    let server = Server::start();
+    for (expression, expected) in [
+        ("sum(250cm,1m)", "350cm"),
+        ("average(250cm,1m)", "175cm"),
+        ("[250cm]+[1m]", "[350cm]"),
+        (
+            "[250cm,100cm;50cm,0cm]+[1m,2m;3m,4m]",
+            "[350cm,300cm;350cm,400cm]",
+        ),
+    ] {
+        let actual = server
+            .expression(&format!("unit cm=100m;{expression}"))
+            .success();
+        let expected = server
+            .expression(&format!("unit cm=100m;{expected}"))
+            .success();
+        compare_calculator_values(&actual["result"]["value"], &expected["result"]["value"])
+            .unwrap_or_else(|error| panic!("{expression}: {error}"));
+    }
+}
+
+#[test]
 fn documented_capability_corpus_executes_through_the_public_api() {
     let cases: Vec<Value> = serde_json::from_str(include_str!("../docs/capability-cases.json"))
         .expect("valid documented capability corpus");

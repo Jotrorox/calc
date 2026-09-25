@@ -274,15 +274,24 @@ impl Engine {
     }
 
     fn binary(&mut self, op: &str, left: &Value, right: &Value) -> Result<Value> {
-        let mut right = right.clone();
-        if matches!(op, "+" | "-" | "=" | "!=" | "<" | "<=" | ">" | ">=")
-            && let (Value::Number(_, _, Some(left_unit)), Value::Number(_, _, Some(right_unit))) =
-                (left, &right)
+        if matches!(op, "+" | "-" | "=" | "!=" | "<" | "<=" | ">" | ">=") {
+            value::binary_with_conversion(op, left, right, self.precision, &mut |left, right| {
+                self.convert_operand(left, right)
+            })
+        } else {
+            value::binary(op, left, right, self.precision)
+        }
+    }
+
+    fn convert_operand(&mut self, left: &Value, right: &Value) -> Result<Option<Value>> {
+        if let (Value::Number(_, _, Some(left_unit)), Value::Number(_, _, Some(right_unit))) =
+            (left, right)
             && left_unit != right_unit
         {
-            right = self.convert(&right, left_unit)?;
+            self.convert(right, left_unit).map(Some)
+        } else {
+            Ok(None)
         }
-        value::binary(op, left, &right, self.precision)
     }
 
     fn call(&mut self, name: &str, arguments: &[Expr]) -> Result<Value> {
@@ -305,6 +314,14 @@ impl Engine {
 
     fn call_values(&mut self, name: &str, arguments: Vec<Value>) -> Result<Value> {
         self.check_deadline()?;
+        if matches!(name, "sum" | "average" | "min" | "max") {
+            return value::reduce_with_conversion(
+                name,
+                arguments,
+                self.precision,
+                &mut |left, right| self.convert_operand(left, right),
+            );
+        }
         if value::is_builtin(name) {
             return value::builtin(name, arguments, self.precision, self.degrees);
         }
@@ -847,12 +864,13 @@ impl Engine {
             for _ in 0..100 {
                 self.check_deadline()?;
                 let residual = self.residuals(equations, names, &point)?;
+                // f64::max ignores NaN, so validate every component before folding.
+                if !residual.iter().all(|value| value.is_finite()) {
+                    break;
+                }
                 let norm = residual
                     .iter()
                     .fold(0.0_f64, |norm, value| norm.max(value.abs()));
-                if !norm.is_finite() {
-                    break;
-                }
                 if norm < 1e-11 {
                     return Ok(point);
                 }
@@ -880,11 +898,19 @@ impl Engine {
                         .zip(&delta)
                         .map(|(at, change)| at - scale * change)
                         .collect::<Vec<_>>();
+                    if !candidate.iter().all(|value| value.is_finite()) {
+                        scale *= 0.5;
+                        continue;
+                    }
                     let next = self.residuals(equations, names, &candidate)?;
+                    if !next.iter().all(|value| value.is_finite()) {
+                        scale *= 0.5;
+                        continue;
+                    }
                     let next_norm = next
                         .iter()
                         .fold(0.0_f64, |norm, value| norm.max(value.abs()));
-                    if next_norm.is_finite() && next_norm < norm {
+                    if next_norm < norm {
                         point = candidate;
                         accepted = true;
                         break;
@@ -1023,13 +1049,55 @@ impl Engine {
         let slope = value::binary("-", &one, &zero, self.precision)?;
         let next_slope = value::binary("-", &two, &one, self.precision)?;
         let linear = value::binary("=", &slope, &next_slope, self.precision)?.truthy()?;
-        if linear && slope.as_f64()? != 0.0 {
-            return value::binary(
+        if linear && !slope.real()?.is_zero() {
+            let candidate = value::binary(
                 "/",
                 &value::binary("-", &target, &zero, self.precision)?,
                 &slope,
                 self.precision,
-            );
+            )?;
+            // Preserve nonfinite propagation for an already nonfinite input;
+            // finite targets must always pass the forward validation below.
+            if let Value::Number(real, imaginary, _) = &target
+                && (!real.is_finite() || !imaginary.is_finite())
+            {
+                return Ok(candidate);
+            }
+            // Equal sampled slopes only suggest an affine formula. Check its
+            // inverse against the actual formula before taking the fast path.
+            if let Value::Number(real, imaginary, _) = &candidate
+                && real.is_finite()
+                && imaginary.is_finite()
+                && let Ok(Value::Number(ar, ai, _)) = self.apply_unit(definition, candidate.clone())
+                && let Value::Number(tr, ti, _) = &target
+                && let Value::Number(zr, zi, _) = &zero
+                && let Value::Number(or, _, _) = &one
+            {
+                let sample_scale = zr.clone().abs().max(&or.clone().abs());
+                let matches = [(&ar, tr, zr, real), (&ai, ti, zi, imaginary)]
+                    .into_iter()
+                    .all(|(actual, expected, offset, coordinate)| {
+                        // Allow precision-scaled roundoff, including cancellation
+                        // in the sampled slope amplified by the candidate. Keep
+                        // this separate from the language's absolute equality
+                        // tolerance and never narrow the affine path to f64.
+                        let slope_error_scale = sample_scale.clone() * coordinate.clone().abs();
+                        let scale = actual
+                            .clone()
+                            .abs()
+                            .max(&expected.clone().abs())
+                            .max(&offset.clone().abs())
+                            .max(&slope_error_scale);
+                        let tolerance = scale >> (self.precision - 4);
+                        actual.is_finite()
+                            && expected.is_finite()
+                            && rug::Float::with_val(self.precision, actual - expected).abs()
+                                <= tolerance
+                    });
+                if matches {
+                    return Ok(candidate);
+                }
+            }
         }
         let expected = target.as_f64()?;
         for initial in [1.0, expected, -1.0, 10.0] {
