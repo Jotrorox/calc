@@ -1032,13 +1032,55 @@ impl Engine {
         let slope = value::binary("-", &one, &zero, self.precision)?;
         let next_slope = value::binary("-", &two, &one, self.precision)?;
         let linear = value::binary("=", &slope, &next_slope, self.precision)?.truthy()?;
-        if linear && slope.as_f64()? != 0.0 {
-            return value::binary(
+        if linear && !slope.real()?.is_zero() {
+            let candidate = value::binary(
                 "/",
                 &value::binary("-", &target, &zero, self.precision)?,
                 &slope,
                 self.precision,
-            );
+            )?;
+            // Preserve nonfinite propagation for an already nonfinite input;
+            // finite targets must always pass the forward validation below.
+            if let Value::Number(real, imaginary, _) = &target
+                && (!real.is_finite() || !imaginary.is_finite())
+            {
+                return Ok(candidate);
+            }
+            // Equal sampled slopes only suggest an affine formula. Check its
+            // inverse against the actual formula before taking the fast path.
+            if let Value::Number(real, imaginary, _) = &candidate
+                && real.is_finite()
+                && imaginary.is_finite()
+                && let Ok(Value::Number(ar, ai, _)) = self.apply_unit(definition, candidate.clone())
+                && let Value::Number(tr, ti, _) = &target
+                && let Value::Number(zr, zi, _) = &zero
+                && let Value::Number(or, _, _) = &one
+            {
+                let sample_scale = zr.clone().abs().max(&or.clone().abs());
+                let matches = [(&ar, tr, zr, real), (&ai, ti, zi, imaginary)]
+                    .into_iter()
+                    .all(|(actual, expected, offset, coordinate)| {
+                        // Allow precision-scaled roundoff, including cancellation
+                        // in the sampled slope amplified by the candidate. Keep
+                        // this separate from the language's absolute equality
+                        // tolerance and never narrow the affine path to f64.
+                        let slope_error_scale = sample_scale.clone() * coordinate.clone().abs();
+                        let scale = actual
+                            .clone()
+                            .abs()
+                            .max(&expected.clone().abs())
+                            .max(&offset.clone().abs())
+                            .max(&slope_error_scale);
+                        let tolerance = scale >> (self.precision - 4);
+                        actual.is_finite()
+                            && expected.is_finite()
+                            && rug::Float::with_val(self.precision, actual - expected).abs()
+                                <= tolerance
+                    });
+                if matches {
+                    return Ok(candidate);
+                }
+            }
         }
         let expected = target.as_f64()?;
         for initial in [1.0, expected, -1.0, 10.0] {
