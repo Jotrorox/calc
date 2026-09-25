@@ -274,15 +274,24 @@ impl Engine {
     }
 
     fn binary(&mut self, op: &str, left: &Value, right: &Value) -> Result<Value> {
-        let mut right = right.clone();
-        if matches!(op, "+" | "-" | "=" | "!=" | "<" | "<=" | ">" | ">=")
-            && let (Value::Number(_, _, Some(left_unit)), Value::Number(_, _, Some(right_unit))) =
-                (left, &right)
+        if matches!(op, "+" | "-" | "=" | "!=" | "<" | "<=" | ">" | ">=") {
+            value::binary_with_conversion(op, left, right, self.precision, &mut |left, right| {
+                self.convert_operand(left, right)
+            })
+        } else {
+            value::binary(op, left, right, self.precision)
+        }
+    }
+
+    fn convert_operand(&mut self, left: &Value, right: &Value) -> Result<Option<Value>> {
+        if let (Value::Number(_, _, Some(left_unit)), Value::Number(_, _, Some(right_unit))) =
+            (left, right)
             && left_unit != right_unit
         {
-            right = self.convert(&right, left_unit)?;
+            self.convert(right, left_unit).map(Some)
+        } else {
+            Ok(None)
         }
-        value::binary(op, left, &right, self.precision)
     }
 
     fn call(&mut self, name: &str, arguments: &[Expr]) -> Result<Value> {
@@ -305,6 +314,14 @@ impl Engine {
 
     fn call_values(&mut self, name: &str, arguments: Vec<Value>) -> Result<Value> {
         self.check_deadline()?;
+        if matches!(name, "sum" | "average" | "min" | "max") {
+            return value::reduce_with_conversion(
+                name,
+                arguments,
+                self.precision,
+                &mut |left, right| self.convert_operand(left, right),
+            );
+        }
         if value::is_builtin(name) {
             return value::builtin(name, arguments, self.precision, self.degrees);
         }

@@ -129,10 +129,18 @@ fn close(a: &Float, b: &Float, precision: u32) -> bool {
 }
 
 fn equal(a: &Value, b: &Value, precision: u32) -> bool {
-    compare_equality(a, b, precision, false).unwrap_or(false)
+    compare_equality(a, b, precision, false, &mut |_, _| Ok(None)).unwrap_or(false)
 }
 
-fn compare_equality(a: &Value, b: &Value, precision: u32, unequal: bool) -> Result<bool> {
+fn compare_equality(
+    a: &Value,
+    b: &Value,
+    precision: u32,
+    unequal: bool,
+    convert: &mut impl FnMut(&Value, &Value) -> Result<Option<Value>>,
+) -> Result<bool> {
+    let converted = convert(a, b)?;
+    let b = converted.as_ref().unwrap_or(b);
     match (a, b) {
         (Value::Number(ar, ai, au), Value::Number(br, bi, bu)) => {
             if au != bu {
@@ -148,13 +156,13 @@ fn compare_equality(a: &Value, b: &Value, precision: u32, unequal: bool) -> Resu
             }
         }
         (Value::Boolean(a), Value::Boolean(b)) => Ok((a == b) != unequal),
-        (Value::Vector(a), Value::Vector(b)) => compare_sequence(a, b, precision, unequal),
+        (Value::Vector(a), Value::Vector(b)) => compare_sequence(a, b, precision, unequal, convert),
         (Value::Matrix(a), Value::Matrix(b)) => {
             if a.len() != b.len() {
                 return Ok(unequal);
             }
             for (a, b) in a.iter().zip(b) {
-                if compare_sequence(a, b, precision, unequal)? == unequal {
+                if compare_sequence(a, b, precision, unequal, convert)? == unequal {
                     return Ok(unequal);
                 }
             }
@@ -164,12 +172,18 @@ fn compare_equality(a: &Value, b: &Value, precision: u32, unequal: bool) -> Resu
     }
 }
 
-fn compare_sequence(a: &[Value], b: &[Value], precision: u32, unequal: bool) -> Result<bool> {
+fn compare_sequence(
+    a: &[Value],
+    b: &[Value],
+    precision: u32,
+    unequal: bool,
+    convert: &mut impl FnMut(&Value, &Value) -> Result<Option<Value>>,
+) -> Result<bool> {
     if a.len() != b.len() {
         return Ok(unequal);
     }
     for (a, b) in a.iter().zip(b) {
-        if compare_equality(a, b, precision, unequal)? == unequal {
+        if compare_equality(a, b, precision, unequal, convert)? == unequal {
             return Ok(unequal);
         }
     }
@@ -240,14 +254,29 @@ fn dot(a: &[Value], b: &[Value], precision: u32) -> Result<Value> {
 }
 
 pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<Value> {
+    binary_with_conversion(op, a, b, precision, &mut |_, _| Ok(None))
+}
+
+// Conversion belongs to the request's engine; collection shape and broadcasting
+// stay here so unit-aware operations follow exactly the same dispatch as numbers.
+pub(crate) fn binary_with_conversion(
+    op: &str,
+    a: &Value,
+    b: &Value,
+    precision: u32,
+    convert: &mut impl FnMut(&Value, &Value) -> Result<Option<Value>>,
+) -> Result<Value> {
     if matches!(op, "=" | "==" | "!=" | "≠") {
         return Ok(Value::Boolean(compare_equality(
             a,
             b,
             precision,
             matches!(op, "!=" | "≠"),
+            convert,
         )?));
     }
+    let converted = convert(a, b)?;
+    let b = converted.as_ref().unwrap_or(b);
     if matches!(op, "<" | ">" | "<=" | ">=" | "≤" | "≥") {
         let a = a.real()?;
         let b = b.real()?;
@@ -311,7 +340,7 @@ pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<V
             Ok(Value::Vector(
                 a.iter()
                     .zip(b)
-                    .map(|(a, b)| binary(op, a, b, precision))
+                    .map(|(a, b)| binary_with_conversion(op, a, b, precision, convert))
                     .collect::<Result<_>>()?,
             ))
         }
@@ -325,7 +354,7 @@ pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<V
                     .map(|(a, b)| {
                         a.iter()
                             .zip(b)
-                            .map(|(a, b)| binary(op, a, b, precision))
+                            .map(|(a, b)| binary_with_conversion(op, a, b, precision, convert))
                             .collect()
                     })
                     .collect::<Result<_>>()?,
@@ -339,7 +368,11 @@ pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<V
             Ok(Value::Matrix(
                 rows.iter()
                     .zip(values)
-                    .map(|(row, b)| row.iter().map(|a| binary(op, a, b, precision)).collect())
+                    .map(|(row, b)| {
+                        row.iter()
+                            .map(|a| binary_with_conversion(op, a, b, precision, convert))
+                            .collect()
+                    })
                     .collect::<Result<_>>()?,
             ))
         }
@@ -351,27 +384,35 @@ pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<V
             Ok(Value::Matrix(
                 rows.iter()
                     .zip(values)
-                    .map(|(row, a)| row.iter().map(|b| binary(op, a, b, precision)).collect())
+                    .map(|(row, a)| {
+                        row.iter()
+                            .map(|b| binary_with_conversion(op, a, b, precision, convert))
+                            .collect()
+                    })
                     .collect::<Result<_>>()?,
             ))
         }
         (Value::Vector(values), _) => Ok(Value::Vector(
             values
                 .iter()
-                .map(|a| binary(op, a, b, precision))
+                .map(|a| binary_with_conversion(op, a, b, precision, convert))
                 .collect::<Result<_>>()?,
         )),
         (_, Value::Vector(values)) => Ok(Value::Vector(
             values
                 .iter()
-                .map(|b| binary(op, a, b, precision))
+                .map(|b| binary_with_conversion(op, a, b, precision, convert))
                 .collect::<Result<_>>()?,
         )),
         (Value::Matrix(rows), _) => {
             shape(rows)?;
             Ok(Value::Matrix(
                 rows.iter()
-                    .map(|row| row.iter().map(|a| binary(op, a, b, precision)).collect())
+                    .map(|row| {
+                        row.iter()
+                            .map(|a| binary_with_conversion(op, a, b, precision, convert))
+                            .collect()
+                    })
                     .collect::<Result<_>>()?,
             ))
         }
@@ -379,7 +420,11 @@ pub(crate) fn binary(op: &str, a: &Value, b: &Value, precision: u32) -> Result<V
             shape(rows)?;
             Ok(Value::Matrix(
                 rows.iter()
-                    .map(|row| row.iter().map(|b| binary(op, a, b, precision)).collect())
+                    .map(|row| {
+                        row.iter()
+                            .map(|b| binary_with_conversion(op, a, b, precision, convert))
+                            .collect()
+                    })
                     .collect::<Result<_>>()?,
             ))
         }
@@ -930,6 +975,15 @@ fn gcd(a: &Value, b: &Value, precision: u32) -> Result<Value> {
 }
 
 fn reduce(name: &str, arguments: Vec<Value>, precision: u32) -> Result<Value> {
+    reduce_with_conversion(name, arguments, precision, &mut |_, _| Ok(None))
+}
+
+pub(crate) fn reduce_with_conversion(
+    name: &str,
+    arguments: Vec<Value>,
+    precision: u32,
+    convert: &mut impl FnMut(&Value, &Value) -> Result<Option<Value>>,
+) -> Result<Value> {
     let values = if arguments.len() == 1 {
         match &arguments[0] {
             Value::Vector(values) => values.clone(),
@@ -951,7 +1005,8 @@ fn reduce(name: &str, arguments: Vec<Value>, precision: u32) -> Result<Value> {
     if matches!(name, "min" | "max") {
         let mut selected = values[0].clone();
         for value in values.iter().skip(1) {
-            let ordering = order(value, &selected)?;
+            let converted = convert(&selected, value)?;
+            let ordering = order(converted.as_ref().unwrap_or(value), &selected)?;
             if (name == "min" && ordering.is_lt()) || (name == "max" && ordering.is_gt()) {
                 selected = value.clone();
             }
@@ -960,11 +1015,12 @@ fn reduce(name: &str, arguments: Vec<Value>, precision: u32) -> Result<Value> {
     }
     let mut result = Value::number(precision, if name == "prod" { 1 } else { 0 });
     for value in &values {
-        result = binary(
+        result = binary_with_conversion(
             if name == "prod" { "*" } else { "+" },
             &result,
             value,
             precision,
+            convert,
         )?;
     }
     if name == "average" {
