@@ -112,6 +112,8 @@ unit F = C*9/5 + 32; 32F to C
 
 These give `2.5 m`, `212 F`, and `0 C`. Arithmetic can convert compatible operands: `unit cm=100m; 250cm + 1m` gives `350 cm`. The formula describes the numeric value in the newly defined unit in terms of the base unit; `unit cm = 100m` means 100 centimeters per meter. Definitions can use nonlinear expressions when the engine can invert them. This is a conversion-formula system, not a complete dimensional-analysis system: do not infer physical-unit cancellation, compound-unit algebra, or an arbitrary conversion graph.
 
+Collection addition/subtraction and `sum`/`average` use the same unit conversions as scalar addition: `unit cm=100m;sum(250cm,1m)` gives `350 cm`, as does `250cm+1m`. Conversion applies to corresponding numeric elements in nested collections, retaining the existing broadcasting rules. `min`/`max` compare compatible units after conversion but return the original selected operand. Incompatible explicitly tagged units produce conversion errors in these operations; multiplication and compound-unit semantics are unchanged.
+
 Conversion targets can be multi-letter unit names. Angle suffixes used directly in trig functions override the request angle mode. Degree mode also applies angle conversion to the hyperbolic families for compatibility; use radians for conventional hyperbolic calculations.
 
 ## Booleans and comparisons
