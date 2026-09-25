@@ -847,12 +847,13 @@ impl Engine {
             for _ in 0..100 {
                 self.check_deadline()?;
                 let residual = self.residuals(equations, names, &point)?;
+                // f64::max ignores NaN, so validate every component before folding.
+                if !residual.iter().all(|value| value.is_finite()) {
+                    break;
+                }
                 let norm = residual
                     .iter()
                     .fold(0.0_f64, |norm, value| norm.max(value.abs()));
-                if !norm.is_finite() {
-                    break;
-                }
                 if norm < 1e-11 {
                     return Ok(point);
                 }
@@ -880,11 +881,19 @@ impl Engine {
                         .zip(&delta)
                         .map(|(at, change)| at - scale * change)
                         .collect::<Vec<_>>();
+                    if !candidate.iter().all(|value| value.is_finite()) {
+                        scale *= 0.5;
+                        continue;
+                    }
                     let next = self.residuals(equations, names, &candidate)?;
+                    if !next.iter().all(|value| value.is_finite()) {
+                        scale *= 0.5;
+                        continue;
+                    }
                     let next_norm = next
                         .iter()
                         .fold(0.0_f64, |norm, value| norm.max(value.abs()));
-                    if next_norm.is_finite() && next_norm < norm {
+                    if next_norm < norm {
                         point = candidate;
                         accepted = true;
                         break;
