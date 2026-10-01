@@ -2,6 +2,7 @@
 
 - Private repository: [Jotrorox/calc](https://github.com/Jotrorox/calc)
 - API base URL: https://calc-production-c962.up.railway.app
+- Browser interface: https://calc-production-c962.up.railway.app/ (also on the custom domain https://calc.jotrorox.com/)
 - Health: https://calc-production-c962.up.railway.app/health
 - Calculator: `POST https://calc-production-c962.up.railway.app/calc`
 - Railway dashboard: https://railway.com/project/fb38367a-c5ab-41ed-9d66-2e93207cf1b7/service/87c990bb-94b0-4f83-8bcd-1abbf5fa42bd?environmentId=bc94ead0-5102-4336-b495-714012601d16
