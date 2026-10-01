@@ -274,7 +274,7 @@ fn health_is_json_and_head_has_no_body() {
 #[test]
 fn routes_and_methods_are_restricted() {
     let server = Server::start();
-    for path in ["/", "/missing", "/calc/", "/health/"] {
+    for path in ["/missing", "/calc/", "/health/", "/assets/missing.js"] {
         server.request("GET", path, &[], &[]).error(404);
     }
     for (method, path) in [
@@ -285,6 +285,39 @@ fn routes_and_methods_are_restricted() {
     ] {
         server.request(method, path, &[], &[]).error(405);
     }
+}
+
+#[test]
+fn browser_interface_is_served_from_embedded_assets() {
+    let server = Server::start();
+    let page = server.request("GET", "/", &[], &[]);
+    assert_eq!(page.status, 200);
+    assert_eq!(page.headers["content-type"], "text/html; charset=utf-8");
+    assert_eq!(page.headers["x-content-type-options"], "nosniff");
+    assert!(page.headers["content-security-policy"].contains("connect-src 'self'"));
+    let html = String::from_utf8_lossy(&page.body);
+    for path in ["/assets/app.css", "/assets/app.js", "/assets/alpine.min.js"] {
+        assert!(html.contains(path), "page does not reference {path}");
+    }
+    // The page must work offline from third-party hosts, including fonts.
+    assert!(
+        !html.contains("https://"),
+        "page loads an external resource"
+    );
+    for (path, content_type) in [
+        ("/assets/app.css", "text/css; charset=utf-8"),
+        ("/assets/app.js", "text/javascript; charset=utf-8"),
+        ("/assets/alpine.min.js", "text/javascript; charset=utf-8"),
+    ] {
+        let response = server.request("GET", path, &[], &[]);
+        assert_eq!(response.status, 200, "{path}");
+        assert_eq!(response.headers["content-type"], content_type, "{path}");
+        assert!(!response.body.is_empty(), "{path}");
+    }
+    let head = server.request("HEAD", "/", &[], &[]);
+    assert_eq!(head.status, 200);
+    assert!(head.body.is_empty());
+    server.request("POST", "/", &[], &[]).error(405);
 }
 
 #[test]

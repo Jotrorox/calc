@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calculator</title>
+<meta name="description" content="A text-first calculator with variables, functions, units, complex numbers, matrices, and numerical calculus.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232f6fec'/%3E%3Cpath d='M9 16h14M16 9v14' stroke='white' stroke-width='3.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/app.css">
+<script src="/assets/app.js"></script>
+<script defer src="/assets/alpine.min.js"></script>
+</head>
+<body>
+<div class="app" x-data="calculator" x-cloak @keydown.window="globalKey($event)">
+  <header class="bar">
+    <span class="brand">calc</span>
+    <nav class="status" aria-label="Settings">
+      <button type="button" class="chip" @click="run(settings.angle === 'rad' ? ':deg' : ':rad')"
+              :title="'Angles in ' + (settings.angle === 'rad' ? 'radians' : 'degrees') + ' — click or type :' + (settings.angle === 'rad' ? 'deg' : 'rad')"
+              x-text="settings.angle"></button>
+      <button type="button" class="chip" @click="prefill(':precision ')" title="Binary precision — type :precision N"
+              x-text="settings.precision + ' bit'"></button>
+      <button type="button" class="chip" @click="run(':vars')" title="Your definitions — type :vars"
+              x-show="defs.length" x-text="defs.length + (defs.length === 1 ? ' definition' : ' definitions')"></button>
+      <button type="button" class="chip" @click="run(':help')" title="Commands and examples">:help</button>
+    </nav>
+  </header>
+
+  <main class="log" x-ref="log" aria-live="polite">
+    <template x-if="!history.length">
+      <section class="welcome">
+        <p class="lead">Type a calculation and press <kbd>Enter</kbd>.</p>
+        <p class="muted">Define variables, functions, and units as you go; they are remembered in this browser. <kbd>Tab</kbd> completes names, <kbd>↑</kbd> recalls earlier input, and <code>:help</code> lists everything else.</p>
+        <ul class="examples">
+          <template x-for="ex in examples.slice(0, 8)" :key="ex">
+            <li><button type="button" class="example" @click="prefill(ex)" x-text="ex"></button></li>
+          </template>
+        </ul>
+      </section>
+    </template>
+
+    <template x-for="entry in history" :key="entry.id">
+      <article class="entry" :class="'is-' + entry.kind">
+        <button type="button" class="input" @click="prefill(entry.input)" title="Edit this input" x-text="entry.input"></button>
+
+        <template x-if="entry.kind === 'result'">
+          <div class="output">
+            <span class="eq" aria-hidden="true">=</span>
+            <output class="value" x-text="entry.full ? entry.formatted : display(entry.value)"
+                    @click="copy(entry)" title="Click to copy"></output>
+            <button type="button" class="more" x-show="!entry.full && isRounded(entry.value)"
+                    @click="entry.full = true" title="Show every computed digit">all digits</button>
+            <span class="copied" x-show="copiedId === entry.id" x-transition.opacity>copied</span>
+          </div>
+        </template>
+        <template x-if="entry.kind === 'pending'">
+          <div class="output note pending">calculating…</div>
+        </template>
+        <template x-if="entry.kind === 'defined'">
+          <div class="output note" x-text="entry.message"></div>
+        </template>
+        <template x-if="entry.kind === 'error'">
+          <div class="output error" role="alert" x-text="entry.message"></div>
+        </template>
+        <template x-if="entry.kind === 'info'">
+          <div class="output note" x-text="entry.message"></div>
+        </template>
+        <template x-if="entry.kind === 'vars'">
+          <div class="output">
+            <p class="note" x-show="!defs.length">Nothing defined yet. Try <code>x = 2</code>, <code>f(x) = x^2</code>, or <code>unit cm = 100m</code>.</p>
+            <ul class="defs">
+              <template x-for="d in defs" :key="d.key">
+                <li><button type="button" class="example" @click="prefill(d.text)" x-text="d.text"></button></li>
+              </template>
+            </ul>
+            <p class="note" x-show="defs.length">Remove one with <code>:forget name</code>, or all with <code>:reset</code>.</p>
+          </div>
+        </template>
+        <template x-if="entry.kind === 'help'">
+          <div class="output help">
+            <dl>
+              <template x-for="c in commands" :key="c.name">
+                <div><dt><code x-text="c.usage"></code></dt><dd x-text="c.help"></dd></div>
+              </template>
+            </dl>
+            <p class="note">Keys: <kbd>Enter</kbd> evaluate · <kbd>Shift</kbd>+<kbd>Enter</kbd> new line · <kbd>Tab</kbd> complete · <kbd>↑</kbd>/<kbd>↓</kbd> history · <kbd>Esc</kbd> clear. Click any earlier input to edit it and any result to copy it.</p>
+            <p class="note">Examples:</p>
+            <ul class="examples">
+              <template x-for="ex in examples" :key="ex">
+                <li><button type="button" class="example" @click="prefill(ex)" x-text="ex"></button></li>
+              </template>
+            </ul>
+          </div>
+        </template>
+      </article>
+    </template>
+  </main>
+
+  <footer class="composer">
+    <div class="suggest" x-show="suggestions.length" x-cloak role="listbox" id="suggestions">
+      <template x-for="(s, i) in suggestions" :key="s.label">
+        <div class="option" role="option" :aria-selected="i === active" :class="{ active: i === active }"
+             @mousedown.prevent="accept(i)" @mousemove="active = i">
+          <span class="name" x-text="s.label"></span>
+          <span class="sig" x-text="s.signature"></span>
+          <span class="desc" x-text="s.description"></span>
+        </div>
+      </template>
+    </div>
+    <div class="field" :class="{ busy: busy }">
+      <span class="prompt" aria-hidden="true">›</span>
+      <textarea x-ref="input" x-model="text" rows="1" spellcheck="false" autocapitalize="off" autocomplete="off"
+                autocorrect="off" enterkeyhint="go" aria-label="Expression or command" aria-autocomplete="list"
+                aria-controls="suggestions" placeholder="2 + 3 * 4, sin(30 deg), f(x) = x^2 …"
+                @input="changed()" @click="refresh()" @keyup="cursorMoved($event)"
+                @keydown="key($event)" @blur="suggestions = []"></textarea>
+    </div>
+    <div class="hint">
+      <span class="preview" x-show="preview" :class="{ error: previewError }" x-text="preview"></span>
+      <span class="sighint" x-show="signature" x-text="signature"></span>
+      <span class="sighint" x-show="!signature && suggestions.length">Tab to complete</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

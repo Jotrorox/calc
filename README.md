@@ -1,6 +1,6 @@
 # Calculator API
 
-A Rust JSON API with a project-owned calculation engine in [`src/engine`](src/engine). The lexer, parser, evaluator, functions, units, collections, and numerical methods are maintained in this repository. There is no vendored or runtime Kalker dependency. The API exposes two routes: `GET /health` and `POST /calc`.
+A Rust JSON API with a project-owned calculation engine in [`src/engine`](src/engine). The lexer, parser, evaluator, functions, units, collections, and numerical methods are maintained in this repository. There is no vendored or runtime Kalker dependency. The API exposes two routes, `GET /health` and `POST /calc`. `GET /` serves a small text-first [browser interface](#browser-interface) for the same calculator.
 
 The engine supports arithmetic, complex numbers, functions and variables, piecewise expressions, vectors, matrices, numerical calculus, equations, number bases, and user-defined units. See the [complete capability reference](docs/capabilities.md), [OpenAPI contract](docs/openapi.json), and [executable capability examples](docs/capability-cases.json). Numerical limitations and syntax details are documented there.
 
@@ -28,6 +28,19 @@ The health response is `{"status":"ok"}`. The calculation response is:
   "angle_unit": "rad"
 }
 ```
+
+## Browser interface
+
+Open the service root (for example http://localhost:8080/) for a keyboard-driven calculator. Type an expression and press Enter; there are no calculator buttons. The interface provides:
+
+- **Completion**: Tab completes built-in functions, constants, keywords, and your own variables, functions, and units. Function calls get parentheses with the cursor placed inside, and a signature hint is shown while you type their arguments.
+- **Live preview** of the current expression, plus ↑/↓ input history, Shift+Enter for multi-line programs, and Esc to clear.
+- **Memory across requests**: definitions such as `f(x) = x^2` or `unit cm = 100m` and the previous result (`ans`) are kept in the browser and sent as `context`. The API stays stateless.
+- **Commands**: `:help`, `:deg`/`:rad`, `:precision 256`, `:digits 20`, `:vars`, `:forget name`, `:reset`, `:clear`, `:copy`.
+
+Results are rounded for display (12 significant digits by default). Click "all digits" for the full value, or click a result to copy it. Click an earlier input to edit it again. History, definitions, and settings are stored in the browser's `localStorage`.
+
+The page is built with [Alpine.js](https://alpinejs.dev) 3.17.4 (MIT), vendored in [`src/ui`](src/ui) with the page's HTML, CSS, and script. These files are embedded in the binary at compile time, so the interface deploys with the API, has no build step, and loads nothing from third-party hosts. It uses system fonts only. Pages are served with a restrictive Content Security Policy. Alpine's attribute expressions require `'unsafe-eval'`.
 
 ## Requests and results
 

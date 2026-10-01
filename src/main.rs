@@ -4,7 +4,7 @@ use axum::{
     Json, Router,
     body::to_bytes,
     extract::{Request, State},
-    http::{StatusCode, header},
+    http::{HeaderValue, StatusCode, header},
     response::{IntoResponse, Response},
     routing::{get, post},
 };
@@ -21,6 +21,53 @@ const MAX_BODY: usize = 32 * 1024;
 // The internal request includes serde defaults that were optional on the wire.
 const MAX_WORKER_INPUT: usize = MAX_BODY + 1024;
 const MAX_OUTPUT: u64 = 2 * 1024 * 1024;
+
+/// Browser interface files embedded in the binary, so the UI deploys with the API.
+struct Asset {
+    body: &'static str,
+    content_type: &'static str,
+    cache: &'static str,
+}
+
+const INDEX: Asset = Asset {
+    body: include_str!("ui/index.html"),
+    content_type: "text/html; charset=utf-8",
+    cache: "no-cache",
+};
+const APP_JS: Asset = Asset {
+    body: include_str!("ui/app.js"),
+    content_type: "text/javascript; charset=utf-8",
+    cache: "no-cache",
+};
+const APP_CSS: Asset = Asset {
+    body: include_str!("ui/app.css"),
+    content_type: "text/css; charset=utf-8",
+    cache: "no-cache",
+};
+const ALPINE: Asset = Asset {
+    body: include_str!("ui/alpine.min.js"),
+    content_type: "text/javascript; charset=utf-8",
+    cache: "public, max-age=86400",
+};
+// Alpine evaluates its attribute expressions with `new Function`, which needs 'unsafe-eval'.
+const CONTENT_SECURITY_POLICY: &str = "default-src 'none'; script-src 'self' 'unsafe-eval'; \
+    style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; \
+    base-uri 'none'; form-action 'none'; frame-ancestors 'none'";
+
+fn asset(asset: &Asset) -> Response {
+    let mut response = asset.body.into_response();
+    let headers = response.headers_mut();
+    for (name, value) in [
+        (header::CONTENT_TYPE, asset.content_type),
+        (header::CACHE_CONTROL, asset.cache),
+        (header::CONTENT_SECURITY_POLICY, CONTENT_SECURITY_POLICY),
+        (header::X_CONTENT_TYPE_OPTIONS, "nosniff"),
+        (header::REFERRER_POLICY, "no-referrer"),
+    ] {
+        headers.insert(name, HeaderValue::from_static(value));
+    }
+    response
+}
 
 #[derive(Clone)]
 struct AppState {
@@ -111,6 +158,10 @@ async fn serve() -> Result<(), Box<dyn std::error::Error>> {
     let app = Router::new()
         .route("/health", get(|| async { Json(json!({"status": "ok"})) }))
         .route("/calc", post(calculate))
+        .route("/", get(|| async { asset(&INDEX) }))
+        .route("/assets/app.js", get(|| async { asset(&APP_JS) }))
+        .route("/assets/app.css", get(|| async { asset(&APP_CSS) }))
+        .route("/assets/alpine.min.js", get(|| async { asset(&ALPINE) }))
         .fallback(|| async { api_error(StatusCode::NOT_FOUND, "not_found", "Endpoint not found.") })
         .method_not_allowed_fallback(|| async {
             api_error(
